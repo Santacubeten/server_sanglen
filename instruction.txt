@@ -1,0 +1,13 @@
+When you want me to create something new, I expect a prompt that clearly specifies:
+
+1.  **What you want to create:** (e.g., "a new Dart file," "a new class," "a new API endpoint," "a new test file").
+2.  **Its purpose or functionality:** (e.g., "for user authentication," "to handle logging," "to test the `TodoRoutes`").
+3.  **Where it should be located:** (e.g., "in `bin/auth/`," "next to `server.dart`," "in a new `tests/` directory").
+4.  **Any initial content or structure:** (e.g., "it should have a `login` method," "it should extend `shelf.Middleware`," "it should contain a basic test for the `GET /todos` endpoint").
+
+Here are some examples of prompts I would expect:
+
+*   "Create a new Dart file `bin/auth/user_auth.dart` that contains a `UserAuth` class with a `login` method."
+*   "I need a new test file `tests/test_db_connection.dart` to test the `DBConnection` class. Please add a basic test to ensure the database connects."
+*   "Create a new model `bin/models/user.dart` with properties for `id`, `username`, and `password`."
+*   "Add a new API endpoint `/users` to `bin/routes/user_routes.dart` that allows creating new users via POST requests."

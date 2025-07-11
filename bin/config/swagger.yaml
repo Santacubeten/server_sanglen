@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Todo API
-  description: A simple API for managing todos.
+  title: Todo & Clan API
+  description: A simple API for managing todos, clans, and surnames.
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -76,6 +76,164 @@ paths:
         '200':
           description: Todo deleted successfully.
 
+  /clans:
+    get:
+      summary: Get all clans
+      responses:
+        '200':
+          description: A list of clans.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Clan'
+    post:
+      summary: Create a new clan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClanInput'
+      responses:
+        '200':
+          description: Clan created successfully.
+  /clans/{id}:
+    get:
+      summary: Get a clan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single clan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clan'
+        '404':
+          description: Clan not found.
+    put:
+      summary: Update a clan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClanInput'
+      responses:
+        '200':
+          description: Clan updated successfully.
+    delete:
+      summary: Delete a clan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Clan deleted successfully.
+
+  /surnames:
+    get:
+      summary: Get all surnames
+      responses:
+        '200':
+          description: A list of surnames.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Surname'
+    post:
+      summary: Create a new surname
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SurnameInput'
+      responses:
+        '200':
+          description: Surname created successfully.
+  /surnames/{id}:
+    get:
+      summary: Get a surname by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single surname.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Surname'
+        '404':
+          description: Surname not found.
+    put:
+      summary: Update a surname by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SurnameInput'
+      responses:
+        '200':
+          description: Surname updated successfully.
+    delete:
+      summary: Delete a surname by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Surname deleted successfully.
+  /surnames/clan/{clanId}:
+    get:
+      summary: Get surnames by Clan ID
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of surnames for the given clan ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Surname'
+
 components:
   schemas:
     Todo:
@@ -90,3 +248,53 @@ components:
           type: string
         isCompleted:
           type: boolean
+    Clan:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+        surnames:
+          type: array
+          items:
+            $ref: '#/components/schemas/Surname'
+    ClanInput:
+      type: object
+      properties:
+        name:
+          type: string
+        created_by:
+          type: string
+      required:
+        - name
+    Surname:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        clan_id:
+          type: integer
+      required:
+        - name
+        - clan_id
+    SurnameInput:
+      type: object
+      properties:
+        name:
+          type: string
+        clan_id:
+          type: integer
+      required:
+        - name
+        - clan_id

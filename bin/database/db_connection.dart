@@ -1,5 +1,7 @@
 import 'package:mysql_client/mysql_client.dart';
 import './todo_table.dart';
+import './clan_table.dart';
+import './surname_table.dart';
 
 class DBConnection {
   DBConnection._();
@@ -9,6 +11,8 @@ class DBConnection {
 
   late final MySQLConnectionPool pool;
   late final TodoTable todoTable;
+  late final ClanTable clanTable;
+  late final SurnameTable surnameTable;
 
   Future<void> connect() async {
     print('Connecting to database...');
@@ -21,7 +25,11 @@ class DBConnection {
       maxConnections: 10,
     );
     todoTable = TodoTable(this);
+    clanTable = ClanTable(this);
+    surnameTable = SurnameTable(this);
     await todoTable.createTable();
+    await clanTable.createTable();
+    await surnameTable.createTable();
     print('Database connected.');
   }
 
