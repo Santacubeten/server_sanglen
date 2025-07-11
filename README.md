@@ -10,78 +10,108 @@ The base URL for the API is `http://localhost:3000`.
 
 #### Create a Todo
 
-- **Endpoint:** `/todos`
-- **Method:** `POST`
-- **Body:**
+*   **Endpoint:** `/todos`
+*   **Method:** `POST`
+*   **Body:**
 
-  ```json
-  {
-    "title": "My First Todo",
-    "description": "This is a test todo.",
-    "isCompleted": false
-  }
-  ```
+    ```json
+    {
+      "title": "My First Todo",
+      "description": "This is a test todo.",
+      "isCompleted": false
+    }
+    ```
 
-- **Example:**
+*   **Example:**
 
-  ```bash
-  curl -X POST http://localhost:3000/todos -H "Content-Type: application/json" -d '{
-    "title": "My First Todo",
-    "description": "This is a test todo.",
-    "isCompleted": false
-  }'
-  ```
+    ```bash
+    curl -X POST http://localhost:3000/todos -H "Content-Type: application/json" -d '{
+      "title": "My First Todo",
+      "description": "This is a test todo.",
+      "isCompleted": false
+    }'
+    ```
 
 #### Get All Todos
 
-- **Endpoint:** `/todos`
-- **Method:** `GET`
-- **Example:**
+*   **Endpoint:** `/todos`
+*   **Method:** `GET`
+*   **Example:**
 
-  ```bash
-  curl http://localhost:3000/todos
-  ```
+    ```bash
+    curl http://localhost:3000/todos
+    ```
 
 #### Get a Todo by ID
 
-- **Endpoint:** `/todos/<id>`
-- **Method:** `GET`
-- **Example:**
+*   **Endpoint:** `/todos/<id>`
+*   **Method:** `GET`
+*   **Example:**
 
-  ```bash
-  curl http://localhost:3000/todos/1
-  ```
+    ```bash
+    curl http://localhost:3000/todos/1
+    ```
 
 #### Update a Todo
 
-- **Endpoint:** `/todos/<id>`
-- **Method:** `PUT`
-- **Body:**
+*   **Endpoint:** `/todos/<id>`
+*   **Method:** `PUT`
+*   **Body:**
 
-  ```json
-  {
-    "title": "My Updated Todo",
-    "description": "This is an updated test todo.",
-    "isCompleted": true
-  }
-  ```
+    ```json
+    {
+      "title": "My Updated Todo",
+      "description": "This is an updated test todo.",
+      "isCompleted": true
+    }
+    ```
 
-- **Example:**
+*   **Example:**
 
-  ```bash
-  curl -X PUT http://localhost:3000/todos/1 -H "Content-Type: application/json" -d '{
-    "title": "My Updated Todo",
-    "description": "This is an updated test todo.",
-    "isCompleted": true
-  }'
-  ```
+    ```bash
+    curl -X PUT http://localhost:3000/todos/1 -H "Content-Type: application/json" -d '{
+      "title": "My Updated Todo",
+      "description": "This is an updated test todo.",
+      "isCompleted": true
+    }'
+    ```
 
 #### Delete a Todo
 
-- **Endpoint:** `/todos/<id>`
-- **Method:** `DELETE`
-- **Example:**
+*   **Endpoint:** `/todos/<id>`
+*   **Method:** `DELETE`
+*   **Example:**
 
-  ```bash
-  curl -X DELETE http://localhost:3000/todos/1
-  ```
+    ```bash
+    curl -X DELETE http://localhost:3000/todos/1
+    ```
+
+## Project Structure (Easy English)
+
+Imagine this project is like a small restaurant:
+
+*   **`server.dart` (The Manager):** This is the main program. It starts the restaurant, connects to the kitchen (database), and waits for customers (your requests) to come in.
+
+*   **`todo_routes.dart` (The Menu):** This file lists all the things you can do with "todo" items, like:
+    *   "Order a new todo" (create)
+    *   "See all todos" (read)
+    *   "Change an existing todo" (update)
+    *   "Throw away a todo" (delete)
+
+*   **`todo.dart` (The Recipe Card):** This is just the basic idea of what a "todo" looks like – it has a title, a description, and whether it's done or not.
+
+*   **`database/` folder (The Kitchen & Storage):**
+    *   `db_connection.dart` (The Kitchen Door): This handles getting into the database (our storage room).
+    *   `todo_table.dart` (The Chef): This is the part that actually talks to the database to save, get, or change your "todo" items.
+
+*   **`middleware/middleware.dart` (The Bouncer):** This checks every customer (request) before they get to the menu, making sure everything is allowed and safe.
+
+*   **`config/swagger.yaml` and `index.html` (The Instruction Manual):**
+    *   `swagger.yaml` is like a detailed book explaining every dish on the menu and how to order it.
+    *   `index.html` is the webpage that shows you this book in a nice, easy-to-read way.
+
+*   **`pubspec.yaml` (The Shopping List):** This file lists all the special ingredients (other software parts) the restaurant needs to run.
+
+*   **`README.md` (The Welcome Sign):** This is the first thing you see, telling you what the restaurant is about and how to use its services.
+
+So, in short, it's a small server that helps you manage your "todo" lists, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!

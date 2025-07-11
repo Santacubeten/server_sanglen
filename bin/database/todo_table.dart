@@ -1,5 +1,5 @@
 
-import '../data/todo.dart';
+import '../models/todo.dart';
 import './db_connection.dart';
 
 class TodoTable {

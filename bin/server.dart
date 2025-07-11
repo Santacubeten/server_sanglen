@@ -7,16 +7,6 @@ import 'routes/todo_routes.dart';
 
 import 'database/middleware/middleware.dart';
 
-import 'dart:io';
-
-import 'package:shelf/shelf.dart' as shelf;
-import 'package:shelf/shelf_io.dart' as io;
-import 'package:shelf_router/shelf_router.dart';
-
-import 'database/db_connection.dart';
-import 'routes/todo_routes.dart';
-import 'database/middleware/middleware.dart';
-
 Future<void> main() async {
   // Initialize MySQL database connection
   final db = DBConnection.instance;

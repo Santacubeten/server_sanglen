@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import '../data/todo.dart';
+import '../models/todo.dart';
 import '../database/db_connection.dart';
 
 class TodoRoutes {
@@ -30,7 +30,7 @@ class TodoRoutes {
       return Response.ok(jsonEncode(todos.map((e) => e.toJson()).toList()));
     });
 
-    router.get('/<id|\d+>', (Request request, String id) async {
+    router.get('/<id>', (Request request, String id) async {
       final todo = await _connection.todoTable.getTodoById(int.parse(id));
       if (todo != null) {
         return Response.ok(jsonEncode(todo.toJson()));
@@ -38,14 +38,14 @@ class TodoRoutes {
       return Response.notFound('Todo not found');
     });
 
-    router.put('/<id|\d+>', (Request request, String id) async {
+    router.put('/<id>', (Request request, String id) async {
       final body = await request.readAsString();
       final todo = Todo.fromJson(jsonDecode(body));
       await _connection.todoTable.updateTodo(todo.copyWith(id: int.parse(id)));
       return Response.ok('Todo updated');
     });
 
-    router.delete('/<id|\d+>', (Request request, String id) async {
+    router.delete('/<id>', (Request request, String id) async {
       await _connection.todoTable.deleteTodo(int.parse(id));
       return Response.ok('Todo deleted');
     });
