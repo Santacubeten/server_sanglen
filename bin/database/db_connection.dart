@@ -1,47 +1,31 @@
 import 'package:mysql_client/mysql_client.dart';
+import './todo_table.dart';
 
-///
-class SqlDataBaseHelper {
-  ///Returns a singleton
-  factory SqlDataBaseHelper() {
-    return _inst;
-  }
+class DBConnection {
+  DBConnection._();
 
-  SqlDataBaseHelper._internal() {
-    _connect();
-  }
+  static final DBConnection _instance = DBConnection._();
+  static DBConnection get instance => _instance;
 
-  static final SqlDataBaseHelper _inst = SqlDataBaseHelper._internal();
+  late final MySQLConnectionPool pool;
+  late final TodoTable todoTable;
 
-  MySQLConnection? _connection;
-
-  /// initialises a connection to database
-  Future<void> _connect() async {
-    print('Connecting Database....');
-    _connection = await MySQLConnection.createConnection(
-      host: "localhost",
+  Future<void> connect() async {
+    print('Connecting to database...');
+    pool = MySQLConnectionPool(
+      host: 'localhost',
       port: 3306,
-      userName: "root",
-      password: "root",
-      databaseName: "sanglen",
-      secure: true,
+      userName: 'root',
+      password: 'root',
+      databaseName: 'sanglen',
+      maxConnections: 10,
     );
-    await _connection?.connect();
+    todoTable = TodoTable(this);
+    await todoTable.createTable();
+    print('Database connected.');
   }
 
-  ///execute a given query and checks for db connection
-  Future<IResultSet> execute(
-    String query, {
-    Map<String, dynamic>? params,
-    bool iterable = false,
-  }) async {
-    if (_connection == null || _connection?.connected == false) {
-      await _connect();
-    }
-
-    if (_connection?.connected == false) {
-      throw Exception('Could not connect to the database');
-    }
-    return _connection!.execute(query, params, iterable);
+  Future<void> close() async {
+    await pool.close();
   }
 }

@@ -2,57 +2,62 @@ import 'dart:io';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
-import 'database/middleware/middleware.dart';
 import 'database/db_connection.dart';
+import 'routes/todo_routes.dart';
 
-void main() async {
+import 'database/middleware/middleware.dart';
+
+import 'dart:io';
+
+import 'package:shelf/shelf.dart' as shelf;
+import 'package:shelf/shelf_io.dart' as io;
+import 'package:shelf_router/shelf_router.dart';
+
+import 'database/db_connection.dart';
+import 'routes/todo_routes.dart';
+import 'database/middleware/middleware.dart';
+
+Future<void> main() async {
   // Initialize MySQL database connection
-  SqlDataBaseHelper();
+  final db = DBConnection.instance;
+  await db.connect();
 
   // Initialize Shelf Router
   final app = Router();
 
-  app.get("/", serveHTML);
+  // Simple root GET route (optional HTML responder)
+  app.get('/', serveHTML);
 
+  // Mount the /todos routes
+  app.mount('/todos', TodoRoutes(db).router.call);
 
-
-  //user CRUD
-
-
-
-  //user CRUD END
-
-
-
-  // Create a Shelf handler function
-  var handler = const shelf.Pipeline()
+  // Build middleware + handler pipeline
+  final handler = const shelf.Pipeline()
       .addMiddleware(shelf.logRequests())
-      .addMiddleware(corsMiddleware)
-      // .addMiddleware(corsHeaders(headers: _corsHeaders))
-      // .addMiddleware(jwtAuthMiddleware) // Authentication
+      .addMiddleware(corsMiddleware) // your custom CORS middleware
       .addHandler(app.call);
 
-  // Start the server
+  // Start server
   try {
-    var server = await io.serve(handler, InternetAddress.anyIPv4, 3000);
+    final server = await io.serve(handler, InternetAddress.anyIPv4, 3000);
 
-    // Get local IP addresses
+    // Display all IPv4 network interfaces
     final interfaces = await NetworkInterface.list(
       type: InternetAddressType.IPv4,
       includeLinkLocal: false,
     );
 
-    for (var interface in interfaces) {
-      for (var addr in interface.addresses) {
-        print('Sanglen Server running on http://${addr.address}:${server.port}');
+    for (final interface in interfaces) {
+      for (final addr in interface.addresses) {
+        print(
+            '✅ Sanglen Server running on http://${addr.address}:${server.port}');
       }
     }
-  } catch (e) {
-    print('Server error: $e');
+  } catch (e, stack) {
+    print('❌ Server failed to start: $e');
+    print(stack);
   }
 }
-
-
 
 shelf.Response serveHTML(shelf.Request request) {
   return shelf.Response.ok(File('index.html').readAsStringSync(),
