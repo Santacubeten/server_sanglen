@@ -1,4 +1,3 @@
-
 class Todo {
   final int? id;
   final String title;
@@ -23,10 +22,10 @@ class Todo {
 
   factory Todo.fromJson(Map<String, dynamic> map) {
     return Todo(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      isCompleted: map['is_completed'] == 1,
+      id: map['id'] != null ? int.tryParse(map['id'].toString()) : null,
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      isCompleted: map['is_completed'] == 1 || map['is_completed'] == true,
     );
   }
 }

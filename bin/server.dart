@@ -26,7 +26,12 @@ Future<void> main() async {
   final app = Router();
 
   // Simple root GET route (optional HTML responder)
-  app.get('/', serveHTML);
+  app.get("/", serveHTML);
+
+  app.get("/swagger.yaml", (shelf.Request request) {
+    return shelf.Response.ok(File('bin/config/swagger.yaml').readAsStringSync(),
+        headers: {'content-type': 'text/yaml'});
+  });
 
   // Mount the /todos routes
   app.mount('/todos', TodoRoutes(db).router.call);

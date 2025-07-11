@@ -1,337 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Swagger UI</title>
-  <!-- ✅ Use a stable version -->
-  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css" />
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css">
   <style>
     html {
       box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
       overflow-y: scroll;
     }
-
     *,
     *:before,
     *:after {
       box-sizing: inherit;
     }
-
     body {
       margin: 0;
       background: #fafafa;
     }
   </style>
 </head>
-
 <body>
   <div id="swagger-ui"></div>
-
-  <!-- ✅ Load Swagger UI Bundle from 4.x series -->
-  <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-standalone-preset.js"></script>
-
+  <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"></script>
   <script>
-    window.onload = function () {
+    window.onload = function() {
       const ui = SwaggerUIBundle({
+        url: "/swagger.yaml",
         dom_id: '#swagger-ui',
         deepLinking: true,
-        layout: "StandaloneLayout", // ✅ This works with 4.15.5
         presets: [
           SwaggerUIBundle.presets.apis,
           SwaggerUIStandalonePreset
         ],
-        tags: [
-          {
-            name: "Authentication",
-            description: "Operations related to Authentication"
-          },
-          {
-            name: "User Management",
-            description: "Operations related to users"
-          },
-          {
-            name: "Transport Management",
-            description: "Operations related to transport"
-          },
-          {
-            name: "Test",
-            description: "Operations related to Tests"
-          },
-        ],
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        spec: {
-          openapi: "3.0.0",
-          info: {
-            title: "Dart Shelf Server API",
-            version: "1.0.0",
-            description: "A sample RESTful API built with Dart and the Shelf framework."
-          },
-          servers: [
-            { url: "http://localhost:3000" }
-          ],
-          paths: {
-            "/login": {
-              post: {
-                summary: "User login",
-                tags: ["Authentication"],
-                description: "Authenticates a user and returns a JWT token.",
-                requestBody: {
-                  required: true,
-                  content: {
-                    "application/json": {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          username: { type: "string" },
-                          password: { type: "string" }
-                        }
-                      }
-                    }
-                  }
-                },
-                responses: {
-                  200: { description: "Successful login" },
-                  401: { description: "Unauthorized" }
-                }
-              }
-            },
-            "/user": {
-              post: {
-                tags: ["User Management"],
-                summary: "Create a new user",
-                description: "Creates a new user.",
-                requestBody: {
-                  required: true,
-                  content: {
-                    "application/json": {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          username: { type: "string" },
-                          email: { type: "string" },
-                          role: { type: "string" }
-                        }
-                      }
-                    }
-                  }
-                },
-                responses: {
-                  201: { description: "User created" },
-                  400: { description: "Bad request" }
-                }
-              }
-            },
-            "/users": {
-              get: {
-                tags: ["User Management"],
-                "summary": "Get all users",
-                "description": "Retrieves a list of all users with pagination.",
-                "parameters": [
-                  {
-                    "name": "page",
-                    "in": "query",
-                    "required": true,
-                    "schema": {
-                      "type": "integer",
-                      "minimum": 1
-                    },
-                    "description": "Page number (e.g. 1, 2, 3)"
-                  },
-                  {
-                    "name": "limit",
-                    "in": "query",
-                    "required": true,
-                    "schema": {
-                      "type": "integer",
-                      "minimum": 1
-                    },
-                    "description": "Number of records per page"
-                  }
-                ],
-                "responses": {
-                  "200": {
-                    "description": "Successful operation"
-                  },
-                  "400": {
-                    "description": "Missing or invalid query parameters"
-                  }
-                }
-              }
-            },
-            "/user/{id}": {
-              get: {
-                tags: ["User Management"],
-
-                summary: "Get user by ID",
-                description: "Retrieves a single user by their ID.",
-                parameters: [
-                  {
-                    name: "id",
-                    in: "path",
-                    required: true,
-                    schema: { type: "integer" }
-                  }
-                ],
-                responses: {
-                  200: { description: "Successful operation" },
-                  404: { description: "User not found" }
-                }
-              },
-              put: {
-                tags: ["User Management"],
-
-                summary: "Update user by ID",
-                description: "Updates a single user by their ID.",
-                parameters: [
-                  {
-                    name: "id",
-                    in: "path",
-                    required: true,
-                    schema: { type: "integer" }
-                  }
-                ],
-                requestBody: {
-                  required: true,
-                  content: {
-                    "application/json": {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          username: { type: "string" },
-                          email: { type: "string" },
-                          role: { type: "string" }
-                        }
-                      }
-                    }
-                  }
-                },
-                responses: {
-                  200: { description: "User updated" },
-                  400: { description: "Bad request" },
-                  404: { description: "User not found" }
-                }
-              },
-              delete: {
-                tags: ["User Management"],
-
-                summary: "Delete user by ID",
-                description: "Deletes a single user by their ID.",
-                parameters: [
-                  {
-                    name: "id",
-                    in: "path",
-                    required: true,
-                    schema: { type: "integer" }
-                  }
-                ],
-                responses: {
-                  204: { description: "User deleted" },
-                  404: { description: "User not found" }
-                }
-              }
-            },
-
-            "/user_reset_pwd/{id}": {
-              put: {
-                tags: ["User Management"],
-
-                summary: "Reset user password",
-                description: "Resets a user's password.",
-                parameters: [
-                  {
-                    name: "id",
-                    in: "path",
-                    required: true,
-                    schema: { type: "integer" }
-                  }
-                ],
-                requestBody: {
-                  required: true,
-                  content: {
-                    "application/json": {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          old_password: { type: "string" },
-                          new_password: { type: "string" }
-                        }
-                      }
-                    }
-                  }
-                },
-                responses: {
-                  200: { description: "Password reset successful" },
-                  400: { description: "Bad request" },
-                  404: { description: "User not found" }
-                }
-              }
-            },
-
-            "/student/transport_status/{id}": {
-
-              put: {
-                tags: ["Transport Management"],
-
-                summary: "Update student transport status",
-                description: "The status field represents the transport state: 0 = Not Picked; 1 = Picked; 2 = On The Way; 3 = Active (To Drop); 4 = Dropped.",
-                parameters: [
-                  {
-                    name: "id",
-                    in: "path",
-                    required: true,
-                    schema: { type: "string" }
-                  }
-                ],
-                requestBody: {
-                  required: true,
-                  content: {
-                    "application/json": {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          status: { type: "string" },
-                        }
-                      }
-                    }
-                  }
-                },
-              }
-            },
-            "/student/transporting": {
-              get: {
-                tags: ["Transport Management"],
-                summary: "Transporting Student list",
-                description: "The status field represents the transport state: 0 = Not Picked; 1 = Picked; 2 = On The Way; 3 = Active (To Drop); 4 = Dropped.",
-                "responses": {
-                  "200": {
-                    "description": "Successful operation"
-                  },
-                  "400": {
-                    "description": "Missing or invalid query parameters"
-                  }
-                }
-              }
-            },
-            "/test_mailer": {
-              get: {
-                tags: ["Test"],
-                summary: "Test mailer",
-                description: "Sends a test email.",
-                responses: {
-                  200: { description: "Email sent" }
-                }
-              }
-            }
-          }
-        }
-      });
-    };
+        layout: "StandaloneLayout"
+      })
+      window.ui = ui
+    }
   </script>
 </body>
-
 </html>
