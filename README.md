@@ -254,17 +254,18 @@ Imagine this project is like a small restaurant:
 
 *   **`server.dart` (The Manager):** This is the main program. It starts the restaurant, connects to the kitchen (database), and waits for customers (your requests) to come in.
 
-*   **`todo_routes.dart` (The Menu):** This file lists all the things you can do with "todo" items, like:
-    *   "Order a new todo" (create)
-    *   "See all todos" (read)
-    *   "Change an existing todo" (update)
-    *   "Throw away a todo" (delete)
+*   **`todo_routes.dart`, `clan_routes.dart`, `surname_routes.dart` (The Menu):** These files list all the things you can do with "todo" items, "clans", and "surnames" like:
+    *   "Order a new item" (create)
+    *   "See all items" (read)
+    *   "Change an existing item" (update)
+    *   "Throw away an item" (delete)
 
-*   **`todo.dart` (The Recipe Card):** This is just the basic idea of what a "todo" looks like – it has a title, a description, and whether it's done or not.
+*   **`todo.dart`, `clan.dart`, `surname.dart` (The Recipe Cards):** These are the basic ideas of what a "todo", a "clan", and a "surname" look like.
 
 *   **`database/` folder (The Kitchen & Storage):**
     *   `db_connection.dart` (The Kitchen Door): This handles getting into the database (our storage room).
-    *   `todo_table.dart` (The Chef): This is the part that actually talks to the database to save, get, or change your "todo" items.
+    *   `todo_table.dart`, `surname_table.dart` (The Chefs): These are the parts that actually talk to the database to save, get, or change your items.
+    *   `clan_repository.dart` is a specialized chef for clans.
 
 *   **`middleware/middleware.dart` (The Bouncer):** This checks every customer (request) before they get to the menu, making sure everything is allowed and safe.
 
@@ -276,4 +277,4 @@ Imagine this project is like a small restaurant:
 
 *   **`README.md` (The Welcome Sign):** This is the first thing you see, telling you what the restaurant is about and how to use its services.
 
-So, in short, it's a small server that helps you manage your "todo" lists, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!
+So, in short, it's a small server that helps you manage your "todo" lists, clans, and surnames, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!
