@@ -4,7 +4,7 @@ info:
   description: A simple API for Meitei Yek Salai.
   version: 1.0.0,
   Interactive documentation:  
-  [**Open Swagger-UI**](https://github.dev/Santacubeten/server_sanglen){:target="_blank" rel="noopener noreferrer"}
+  [Open Swagger-UI](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
 servers:
   - url: http://192.168.29.191:3000
 paths:
