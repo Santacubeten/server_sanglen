@@ -12,13 +12,14 @@ import 'database/middleware/middleware.dart';
 Future<void> main() async {
   // Initialize MySQL database connection
   final db = DBConnection.instance;
-  await db.connect();
+  await db.connectdb();
 
   // Initialize Shelf Router
   final app = Router();
 
   // Simple root GET route (optional HTML responder)
   app.get("/", serveHTML);
+  
 
   app.get("/swagger.yaml", (shelf.Request request) {
     return shelf.Response.ok(File('bin/config/swagger.yaml').readAsStringSync(),

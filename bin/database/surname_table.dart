@@ -1,4 +1,3 @@
-import 'package:mysql_client/mysql_client.dart';
 import '../models/surname.dart';
 import 'db_connection.dart';
 

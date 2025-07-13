@@ -40,4 +40,20 @@ class Clan {
           : null,
     );
   }
+
+  Clan copyWith({
+    int? id,
+    String? name,
+    DateTime? createdAt,
+    String? createdBy,
+    List<Surname>? surnames,
+  }) {
+    return Clan(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+      createdBy: createdBy ?? this.createdBy,
+      surnames: surnames ?? this.surnames,
+    );
+  }
 }
