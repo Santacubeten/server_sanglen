@@ -2,80 +2,13 @@ openapi: 3.0.0
 info:
   title: Sanglen Yek Salai API
   description: A simple API for Meitei Yek Salai.
-  version: 1.0.0
+  version: 1.0.0,
+  Interactive documentation:  
+  [Open Swagger-UI](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
 servers:
   - url: http://192.168.29.191:3000
 paths:
-  # /todos:
-  #   get:
-  #     summary: Get all todos
-  #     responses:
-  #       '200':
-  #         description: A list of todos.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 $ref: '#/components/schemas/Todo'
-  #   post:
-  #     summary: Create a new todo
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/Todo'
-  #     responses:
-  #       '200':
-  #         description: Todo created successfully.
-  # /todos/{id}:
-  #   get:
-  #     summary: Get a todo by ID
-  #     parameters:
-  #       - name: id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: integer
-  #     responses:
-  #       '200':
-  #         description: A single todo.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/Todo'
-  #       '404':
-  #         description: Todo not found.
-  #   put:
-  #     summary: Update a todo by ID
-  #     parameters:
-  #       - name: id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: integer
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/Todo'
-  #     responses:
-  #       '200':
-  #         description: Todo updated successfully.
-  #   delete:
-  #     summary: Delete a todo by ID
-  #     parameters:
-  #       - name: id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: integer
-  #     responses:
-  #       '200':
-  #         description: Todo deleted successfully.
-
+  
   /clans:
     get:
       summary: Get all clans
