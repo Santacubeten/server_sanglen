@@ -3,7 +3,7 @@ info:
   title: Sanglen Yek Salai API
   description: |
     A simple API for Meitei Yek Salai.
-    ![VS Code icon](https://code.visualstudio.com/assets/images/code-stable.png)
+    ![VS Code icon](https://code.visualstudio.com/assets/images/code-stable.png){ width=32 height=32 }
     📖 Interactive documentation:  
     [](https://code.visualstudio.com/assets/images/code-stable.png)
     [Open VS Code](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
