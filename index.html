@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Yek Salai Backend</title>
@@ -12,27 +13,32 @@
       overflow: -moz-scrollbars-vertical;
       overflow-y: scroll;
     }
+
     *,
     *:before,
     *:after {
       box-sizing: inherit;
     }
+
     body {
       margin: 0;
       background: #fafafa;
     }
   </style>
 </head>
+
 <body>
 
 
-  <a href="https://github.dev/Santacubeten/server_sanglen"><img src="./assets/vscode.png" alt="VS Code" width="40" height="40"></a>
+  <a href="https://github.dev/Santacubeten/server_sanglen" target="_blank">
+    <img src="https://code.visualstudio.com/assets/images/code-stable.png" alt="VS Code" width="40" height="40">
+  </a>
   <div id="swagger-ui"></div>
- 
+
   <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"></script>
   <script>
-    window.onload = function() {
+    window.onload = function () {
       const ui = SwaggerUIBundle({
         url: "/swagger.yaml",
         dom_id: '#swagger-ui',
@@ -50,4 +56,5 @@
     }
   </script>
 </body>
+
 </html>
