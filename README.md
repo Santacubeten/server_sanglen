@@ -6,85 +6,6 @@ This is a sample RESTful API built with Dart and the Shelf framework.
 
 The base URL for the API is `http://localhost:3000`.
 
-### Todos
-
-#### Create a Todo
-
-*   **Endpoint:** `/todos`
-*   **Method:** `POST`
-*   **Body:**
-
-    ```json
-    {
-      "title": "My First Todo",
-      "description": "This is a test todo.",
-      "isCompleted": false
-    }
-    ```
-
-*   **Example:**
-
-    ```bash
-    curl -X POST http://localhost:3000/todos -H "Content-Type: application/json" -d '{
-      "title": "My First Todo",
-      "description": "This is a test todo.",
-      "isCompleted": false
-    }'
-    ```
-
-#### Get All Todos
-
-*   **Endpoint:** `/todos`
-*   **Method:** `GET`
-*   **Example:**
-
-    ```bash
-    curl http://localhost:3000/todos
-    ```
-
-#### Get a Todo by ID
-
-*   **Endpoint:** `/todos/<id>`
-*   **Method:** `GET`
-*   **Example:**
-
-    ```bash
-    curl http://localhost:3000/todos/1
-    ```
-
-#### Update a Todo
-
-*   **Endpoint:** `/todos/<id>`
-*   **Method:** `PUT`
-*   **Body:**
-
-    ```json
-    {
-      "title": "My Updated Todo",
-      "description": "This is an updated test todo.",
-      "isCompleted": true
-    }
-    ```
-
-*   **Example:**
-
-    ```bash
-    curl -X PUT http://localhost:3000/todos/1 -H "Content-Type: application/json" -d '{
-      "title": "My Updated Todo",
-      "description": "This is an updated test todo.",
-      "isCompleted": true
-    }'
-    ```
-
-#### Delete a Todo
-
-*   **Endpoint:** `/todos/<id>`
-*   **Method:** `DELETE`
-*   **Example:**
-
-    ```bash
-    curl -X DELETE http://localhost:3000/todos/1
-    ```
 
 ### Clans
 
@@ -277,4 +198,4 @@ Imagine this project is like a small restaurant:
 
 *   **`README.md` (The Welcome Sign):** This is the first thing you see, telling you what the restaurant is about and how to use its services.
 
-So, in short, it's a small server that helps you manage your "todo" lists, clans, and surnames, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!
+So, in short, it's a small server that helps you manage your lists, clans, and surnames, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!
