@@ -10,10 +10,17 @@ info:
   version: 1.0.0
 servers:
   - url: http://192.168.29.191:3000
+tags:
+  - name: Clan
+    description: Operations about clans
+  - name: Surname
+    description: Operations about surnames
 paths:
   
   /clans:
     get:
+      tags:
+        - Clan
       summary: Get all clans
       responses:
         '200':
@@ -25,6 +32,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Clan'
     post:
+      tags:
+        - Clan
       summary: Create a new clan
       requestBody:
         required: true
@@ -37,6 +46,8 @@ paths:
           description: Clan created successfully.
   /clans/{id}:
     get:
+      tags:
+        - Clan
       summary: Get a clan by ID
       parameters:
         - name: id
@@ -54,6 +65,8 @@ paths:
         '404':
           description: Clan not found.
     put:
+      tags:
+        - Clan
       summary: Update a clan by ID
       parameters:
         - name: id
@@ -71,6 +84,8 @@ paths:
         '200':
           description: Clan updated successfully.
     delete:
+      tags:
+        - Clan
       summary: Delete a clan by ID
       parameters:
         - name: id
@@ -84,6 +99,8 @@ paths:
 
   /surnames:
     get:
+      tags:
+        - Surname
       summary: Get all surnames
       responses:
         '200':
@@ -95,6 +112,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Surname'
     post:
+      tags:
+        - Surname
       summary: Create a new surname
       requestBody:
         required: true
@@ -107,6 +126,8 @@ paths:
           description: Surname created successfully.
   /surnames/{id}:
     get:
+      tags:
+        - Surname
       summary: Get a surname by ID
       parameters:
         - name: id
@@ -124,6 +145,8 @@ paths:
         '404':
           description: Surname not found.
     put:
+      tags:
+        - Surname
       summary: Update a surname by ID
       parameters:
         - name: id
@@ -141,6 +164,8 @@ paths:
         '200':
           description: Surname updated successfully.
     delete:
+      tags:
+        - Surname
       summary: Delete a surname by ID
       parameters:
         - name: id
@@ -153,6 +178,8 @@ paths:
           description: Surname deleted successfully.
   /surnames/clan/{clanId}:
     get:
+      tags:
+        - Surname
       summary: Get surnames by Clan ID
       parameters:
         - name: clanId
