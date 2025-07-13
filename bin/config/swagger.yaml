@@ -3,8 +3,7 @@ info:
   title: Sanglen Yek Salai API
   description: |
     A simple API for Meitei Yek Salai.
-
-    📖 Interactive documentation:  
+    🆚 Interactive documentation:  
     [Open VS Code](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
   version: 1.0.0
 servers:
