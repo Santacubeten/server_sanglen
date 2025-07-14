@@ -269,26 +269,6 @@ paths:
         "404":
           description: Yek Detail not found
 
-    put:
-      tags:
-        - Yek Details
-      summary: Update a Yek Detail by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/yek_Details"
-      responses:
-        "200":
-          description: Yek Detail updated successfully
-
     delete:
       tags:
         - Yek Details
