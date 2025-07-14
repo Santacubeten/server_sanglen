@@ -9,8 +9,7 @@ info:
     [Open VS Code](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
   version: 1.0.0
 servers:
-  - url: https://consistently-modification-documented-jerry.trycloudflare.com
-    description: Cloudflare
+
   - url: http://10.10.1.38:3000
     description: Server running PC
   - url: http://localhost:3000
