@@ -5,7 +5,8 @@ Future<shelf.Response> Function(shelf.Request request) corsMiddleware(
   // ✅ List of allowed origins
   const allowedOrigins = [
     'http://192.168.29.191:3000',
-       'http://192.168.29.184:3000',
+    'http://192.168.29.184:3000',
+    'http://10.10.1.38:3000',    
     'http://localhost:3000',
     'http://127.0.0.1:3000',
   ];

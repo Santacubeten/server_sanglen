@@ -3,9 +3,10 @@ import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 import 'database/db_connection.dart';
-import 'routes/todo_routes.dart';
 import 'routes/clan_routes.dart';
 import 'routes/surname_routes.dart';
+import 'routes/yek_details_routes.dart';
+
 
 import 'database/middleware/middleware.dart';
 
@@ -27,9 +28,11 @@ Future<void> main() async {
   });
 
   // Mount the /todos routes
-  app.mount('/todos', TodoRoutes(db).router.call);
+  // app.mount('/todos', TodoRoutes(db).router.call);
   app.mount('/clans', ClanRoutes(db).router.call);
   app.mount('/surnames', SurnameRoutes(db).router.call);
+  app.mount('/yek_details', YekDetailsRoutes(db).route.call);
+
 
   // Build middleware + handler pipeline
   final handler = const shelf.Pipeline()

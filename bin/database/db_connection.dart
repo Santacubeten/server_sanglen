@@ -1,5 +1,5 @@
 import 'package:mysql_client/mysql_client.dart';
-import './todo_table.dart';
+
 import './surname_table.dart';
 
 class DBConnection {
@@ -9,7 +9,6 @@ class DBConnection {
   static DBConnection get instance => _instance;
 
   late final MySQLConnectionPool pool;
-  late final TodoTable todoTable;
   late final SurnameTable surnameTable;
 
   /* ---------- Helpers ---------- */
@@ -46,13 +45,10 @@ class DBConnection {
         maxConnections: 10,
       );
 
-      todoTable    = TodoTable(this);
       surnameTable = SurnameTable(this);
-
-      await todoTable.createTable();
       await surnameTable.createTable();
-
       await seedData();
+      
       print('✅ Database connected & seeded.');
     } catch (e) {
       print('❌ Error: $e');
