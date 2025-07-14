@@ -1,7 +1,7 @@
 class YekDetails {
   final int? id;
   final int clanId;
-  final String name;
+  final String firewood;
   final String color;     // Hex color code
   final String? flower;
   final String? fruit;
@@ -12,7 +12,7 @@ class YekDetails {
   YekDetails({
     this.id,
     required this.clanId,
-    required this.name,
+    required this.firewood,
     required this.color,
     this.flower,
     this.fruit,
@@ -26,7 +26,7 @@ class YekDetails {
     return {
       'id': id,
       'clan_id': clanId,
-      'name': name,
+      'firewood': firewood,
       'color': color,
       'flower': flower,
       'fruit': fruit,
@@ -41,14 +41,14 @@ class YekDetails {
     return YekDetails(
       id: json['id'] as int?,
       clanId: json['clan_id'] as int,
-      name: json['name'] as String,
+      firewood: json['firewood'] as String,
       color: json['color'] as String,
       flower: json['flower'] as String?,
       fruit: json['fruit'] as String?,
       fish: json['fish'] as String?,
       sword: json['sword'] as String?,
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
+          ? DateTime.tryParse(json['created_at'])
           : null,
     );
   }
@@ -57,7 +57,7 @@ class YekDetails {
   YekDetails copyWith({
     int? id,
     int? clanId,
-    String? name,
+    String? firewood,
     String? color,
     String? flower,
     String? fruit,
@@ -68,7 +68,7 @@ class YekDetails {
     return YekDetails(
       id: id ?? this.id,
       clanId: clanId ?? this.clanId,
-      name: name ?? this.name,
+      firewood: firewood ?? this.firewood,
       color: color ?? this.color,
       flower: flower ?? this.flower,
       fruit: fruit ?? this.fruit,

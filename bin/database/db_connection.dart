@@ -1,5 +1,6 @@
 import 'package:mysql_client/mysql_client.dart';
-
+import '../repository/clan_repository.dart';
+import '../repository/yek_details_repository.dart';
 import './surname_table.dart';
 
 class DBConnection {
@@ -10,6 +11,8 @@ class DBConnection {
 
   late final MySQLConnectionPool pool;
   late final SurnameTable surnameTable;
+  late final ClanRepository clanTable;
+  late final YekDetailRepository yekDetailRepository;
 
   /* ---------- Helpers ---------- */
   Future<int> _rowCount(String tableName) async {
@@ -45,10 +48,14 @@ class DBConnection {
         maxConnections: 10,
       );
 
+      clanTable = ClanRepository(this);
       surnameTable = SurnameTable(this);
+      yekDetailRepository = YekDetailRepository(this);
+      await clanTable.createTable();
       await surnameTable.createTable();
+      await yekDetailRepository.createTable();
       await seedData();
-      
+
       print('✅ Database connected & seeded.');
     } catch (e) {
       print('❌ Error: $e');
@@ -58,13 +65,16 @@ class DBConnection {
 
   /* ---------- Seeding ---------- */
   Future<void> seedData() async {
+    print('Seeding data if necessary…');
+    /* --- yek_details --- */
+
     /* --- clans --- */
     if (await _rowCount('clans') == 0) {
       const clans = [
         {'id': '1', 'name': 'Mangang', 'created_by': 'admin'},
-        {'id': '2', 'name': 'Luwang',  'created_by': 'admin'},
-        {'id': '3', 'name': 'Khuman',  'created_by': 'admin'},
-        {'id': '4', 'name': 'Angom',   'created_by': 'admin'},
+        {'id': '2', 'name': 'Luwang', 'created_by': 'admin'},
+        {'id': '3', 'name': 'Khuman', 'created_by': 'admin'},
+        {'id': '4', 'name': 'Angom', 'created_by': 'admin'},
         {'id': '5', 'name': 'Moirang', 'created_by': 'admin'},
         {'id': '6', 'name': 'Kha Nganba', 'created_by': 'admin'},
         {'id': '7', 'name': 'Sarang Leishangthem', 'created_by': 'admin'},
@@ -193,6 +203,35 @@ class DBConnection {
         );
       }
       print('✅ Surnames seeded.');
+    }
+    if (await _rowCount('yek_details') == 0) {
+      const yekDetails = [
+        {
+          'clan_id': 1,
+          "firewood": "sayee",
+          "color": "#A5205B",
+          "flower": "Red Lotus",
+          "fruit": "Thamchet",
+          "fish": "Sareng Angangba (Mayanglenda Angangba Chenba)",
+          "sword": "Chak Thang"
+        },
+        {
+          'clan_id': 2,
+          'firewood': 'Heikru',
+          'color': 'White',
+          'flower': 'Melei',
+          'fruit': 'Pineapple',
+          'fish': 'Sareng Angouba',
+          'sword': 'Tondum Thang'
+        },
+        // Add more yek details as needed
+      ];
+      for (final yek in yekDetails) {
+        await pool.execute(
+          'INSERT INTO yek_details (clan_id, firewood, color, flower, fruit, fish, sword) VALUES (:clan_id, :firewood, :color, :flower, :fruit, :fish, :sword)',
+          yek,
+        );
+      }
     }
   }
 

@@ -214,6 +214,116 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/yek_Details"
+
+    post:
+      tags:
+        - Yek Details
+      summary: Create a new Yek Detail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/yek_Details"
+      responses:
+        "200":
+          description: Yek Detail created successfully.
+
+  /yek_details/{id}:
+    patch:
+      tags:
+        - Yek Details
+      summary: Partially update a Yek Detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/yek_Details"
+      responses:
+        "200":
+          description: Yek Detail updated successfully
+    get:
+      tags:
+        - Yek Details
+      summary: Get a Yek Detail by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single Yek Detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/yek_Details"
+        "404":
+          description: Yek Detail not found
+
+    put:
+      tags:
+        - Yek Details
+      summary: Update a Yek Detail by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/yek_Details"
+      responses:
+        "200":
+          description: Yek Detail updated successfully
+
+    delete:
+      tags:
+        - Yek Details
+      summary: Delete a Yek Detail by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Yek Detail deleted successfully
+
+  /yek_details/by_clan_id/{clanId}:
+    get:
+      tags:
+        - Yek Details
+      summary: Get Yek Detail by Clan ID
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A Yek Detail for the given Clan ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/yek_Details"
+        "404":
+          description: Yek Detail not found for given Clan ID
+
 components:
   schemas:
     yek_Details:
@@ -221,9 +331,10 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
         clan_id:
           type: integer
-        name:
+        firewood:
           type: string
         color:
           type: string
@@ -238,7 +349,8 @@ components:
           type: string
         created_at:
           type: string
-          format: date-time
+          format: date-time,
+          readOnly: true
     Clan:
       type: object
       properties:
