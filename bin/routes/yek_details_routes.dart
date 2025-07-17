@@ -5,6 +5,10 @@ import '../database/db_connection.dart';
 import '../repository/yek_details_repository.dart';
 import '../models/yek_details.dart';
 
+final header = {
+  'Content-Type': 'application/json',
+};
+
 class YekDetailsRoutes {
   final DBConnection _connection;
   late final YekDetailRepository _yekDetailRepository;
@@ -30,18 +34,20 @@ class YekDetailsRoutes {
     });
     router.get('/', (Request request) async {
       final yekDetails = await _yekDetailRepository.getAllYekDetails();
-      return Response.ok(jsonEncode(yekDetails
-          .map(
-            (e) => e.toJson(),
-          )
-          .toList()));
+      return Response.ok(
+          jsonEncode(yekDetails
+              .map(
+                (e) => e.toJson(),
+              )
+              .toList()),
+          headers: header);
     });
 
     router.get('/<id>', (Request request, String id) async {
       final yekDetails =
           await _yekDetailRepository.getYekDetailById(int.parse(id));
       if (yekDetails != null) {
-        return Response.ok(jsonEncode(yekDetails.toJson()));
+        return Response.ok(jsonEncode(yekDetails.toJson()),headers:header);
       }
       return Response.notFound('Yek details not found');
     });
@@ -54,9 +60,7 @@ class YekDetailsRoutes {
           return Response.notFound('Yek Detail not found for clan ID: $clanId');
         }
 
-        return Response.ok(jsonEncode(yekDetail.toJson()), headers: {
-          'Content-Type': 'application/json',
-        });
+        return Response.ok(jsonEncode(yekDetail.toJson()), headers: header);
       } catch (e) {
         return Response.internalServerError(body: 'Error: ${e.toString()}');
       }
@@ -103,9 +107,7 @@ class YekDetailsRoutes {
         data['akomba_yumak_id'],
       );
 
-      return Response.ok(jsonEncode(phol), headers: {
-        'Content-Type': 'application/json',
-      });
+      return Response.ok(jsonEncode(phol), headers: header);
     });
 
     return router;
