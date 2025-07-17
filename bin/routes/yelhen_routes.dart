@@ -34,8 +34,7 @@ class YelhenRoutes {
 
     router.get('/', (Request request) async {
       final yelhens = await _yelhenRepository.getAllYelhens();
-      return Response.ok(
-          jsonEncode(yelhens.map((e) => e.toJson()).toList()),
+      return Response.ok(jsonEncode(yelhens.map((e) => e.toJson()).toList()),
           headers: header);
     });
 
@@ -45,6 +44,22 @@ class YelhenRoutes {
         return Response.ok(jsonEncode(yelhen.toJson()), headers: header);
       }
       return Response.notFound('Yelhen not found');
+    });
+
+    router.get('/by_clan_id/<clanId>', (Request request, String clanId) async {
+      try {
+        final int id = int.parse(clanId);
+        final yelhens = await _yelhenRepository.getYelhensByClanId(id);
+
+        if (yelhens.isEmpty) {
+          return Response.notFound('No Yelhens found for clan ID: $clanId');
+        }
+
+        return Response.ok(jsonEncode(yelhens.map((e) => e.toJson()).toList()),
+            headers: header);
+      } catch (e) {
+        return Response(400, body: 'Invalid clan ID format: $clanId');
+      }
     });
 
     router.delete('/<id>', (Request request, String id) async {

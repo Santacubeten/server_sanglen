@@ -1,3 +1,5 @@
+import 'package:shelf/shelf.dart';
+
 import '../models/yelhen.model.dart';
 import '../database/db_connection.dart';
 
@@ -15,7 +17,9 @@ class YelhenRepository {
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         description TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        clan_id INT NOT NULL,
+        FOREIGN KEY (clan_id) REFERENCES clans(id) ON DELETE CASCADE
       )
     ''');
   }
@@ -24,6 +28,19 @@ class YelhenRepository {
   /// CREATE (Insert new yelhen)
   Future<void> createYelhen(YelhenModel yelhen) async {
     final db = _connection.pool;
+    
+    final missingKeys = validateRequiredParams(
+      model: yelhen,
+      params: ['name', 'description', 'clan_id'],
+    );
+
+    if (missingKeys.isNotEmpty) {
+      Response.badRequest(
+        body: 'Missing required fields: ${missingKeys.join(', ')}',
+      );
+    } else if (yelhen.clanId <= 0) {
+      Response.badRequest(body: 'Invalid clan ID: ${yelhen.clanId}');
+    }
     await db.execute(
       '''
       INSERT INTO yelhen (name, description) 
@@ -32,6 +49,7 @@ class YelhenRepository {
       {
         'name': yelhen.name,
         'description': yelhen.description,
+        'clan_id': yelhen.clanId,
       },
     );
   }
@@ -46,6 +64,8 @@ class YelhenRepository {
       return YelhenModel(
         id: row.colByName('id') as int,
         name: row.colByName('name') as String,
+        clanId:
+            row.colByName('clan_id') as int, // Assuming description is optional
         description: row.colByName('description'),
       );
     }).toList();
@@ -66,8 +86,29 @@ class YelhenRepository {
     return YelhenModel(
       id: row.colByName('id') as int,
       name: row.colByName('name') as String,
+      clanId:
+          row.colByName('clan_id') as int, // Assuming description is optional
+
       description: row.colByName('description'),
     );
+  }
+
+  ///READ (Get yelhens by clan ID)
+  Future<List<YelhenModel>> getYelhensByClanId(int clanId) async {
+    final db = _connection.pool;
+    final result = await db.execute(
+      'SELECT * FROM yelhen WHERE clan_id = :clan_id',
+      {'clan_id': clanId},
+    );
+
+    return result.rows.map((row) {
+      return YelhenModel(
+        id: row.colByName('id') as int,
+        name: row.colByName('name') as String,
+        clanId: row.colByName('clan_id') as int,
+        description: row.colByName('description'),
+      );
+    }).toList();
   }
 
   // ─────────────────────────────────────────────────────────────
@@ -101,3 +142,22 @@ class YelhenRepository {
 }
 // ─────────────────────────────────────────────────────────────
 /// COPY WITH
+
+// helper;
+List<String> validateRequiredParams<T>({
+  required T model,
+  required List<String> params,
+}) {
+  final json = (model as dynamic).toJson() as Map<String, dynamic>;
+
+  List<String> missing = [];
+
+  for (var key in params) {
+    final value = json[key];
+    if (value == null || (value is String && value.trim().isEmpty)) {
+      missing.add(key);
+    }
+  }
+
+  return missing;
+}
