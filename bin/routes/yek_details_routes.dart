@@ -91,6 +91,23 @@ class YekDetailsRoutes {
       return Response.ok('Yek details deleted');
     });
 
+    router.post('/yekthoknabra', (Request request) async {
+      final body = await request.readAsString();
+      final data = jsonDecode(body);
+
+      if (data['ahanba_yumak_id'] == null || data['akomba_yumak_id'] == null) {
+        return Response(400, body: 'Invalid input data');
+      }
+      final phol = await _yekDetailRepository.yekThonknabra(
+        data['ahanba_yumak_id'],
+        data['akomba_yumak_id'],
+      );
+
+      return Response.ok(jsonEncode(phol), headers: {
+        'Content-Type': 'application/json',
+      });
+    });
+
     return router;
   }
 }

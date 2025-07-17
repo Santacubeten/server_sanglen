@@ -164,4 +164,78 @@ class YekDetailRepository {
       {'id': id},
     );
   }
+
+  Future<Map<String, dynamic>?> yekThonknabra(
+      int ahanbaYumakId, int akombaYumakId) async {
+    final conn = _connection.pool;
+
+    // Query first surname
+    final result1 = await conn.execute(
+      '''
+    SELECT name, clan_id 
+    FROM sanglen.surnames 
+    WHERE id = :id
+    ''',
+      {'id': ahanbaYumakId},
+    );
+
+    // Query second surname
+    final result2 = await conn.execute(
+      '''
+    SELECT name, clan_id 
+    FROM sanglen.surnames 
+    WHERE id = :id
+    ''',
+      {'id': akombaYumakId},
+    );
+
+    // If either result is empty
+    if (result1.rows.isEmpty || result2.rows.isEmpty) {
+      return {
+        'surname1': '',
+        'clanId1': null,
+        'surname2': '',
+        'clanId2': null,
+        'sameClan': false,
+        'clanName': null,
+      };
+    }
+
+    final row1 = result1.rows.first;
+    final row2 = result2.rows.first;
+
+    final surname1 = row1.colByName('name') ?? '';
+    final clanId1 = row1.colByName('clan_id');
+
+    final surname2 = row2.colByName('name') ?? '';
+    final clanId2 = row2.colByName('clan_id');
+
+    final sameClan = clanId1 != null && clanId1 == clanId2;
+
+    // Optional: get clan name if same clan
+
+    final clan1Result = await conn.execute(
+      '''
+      SELECT name FROM sanglen.clans WHERE id = :id
+      ''',
+      {'id': clanId1},
+    );
+
+    final clan2Result = await conn.execute(
+      '''
+      SELECT name FROM sanglen.clans WHERE id = :id
+      ''',
+      {'id': clanId2},
+    );
+
+    return {
+      'surname_1': surname1,
+      'clan_id_1': clanId1,
+      'clan_name_1': clan1Result.rows.first.colByName('name'),
+      'surname_2': surname2,
+      'clan_id_2': clanId2,
+      'same_clan': sameClan,
+      'clan_name_2': clan2Result.rows.first.colByName('name'),
+    };
+  }
 }
