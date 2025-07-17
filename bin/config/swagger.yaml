@@ -304,7 +304,29 @@ paths:
                 $ref: "#/components/schemas/yek_Details"
         "404":
           description: Yek Detail not found for given Clan ID
-
+  /yek_details/yekthoknabra:
+    post:
+      tags:
+        - Yek Details
+      summary: Yek Detail with Yekthoknabra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ahanba_yumak_id:
+                  type: integer
+                akomba_yumak_id:
+                  type: integer
+      responses:
+        "200":
+          description: Yek Detail created successfully with Yekthoknabra.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/yek_Details"
 components:
   schemas:
     yek_Details:
