@@ -327,6 +327,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/yek_Details"
+  /yelhen:
+    get:
+      tags:
+        - Yelhen
+      summary: Get all Yelhen
+      responses:
+        "200":
+          description: A list of Yelhen.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/yek_Details"
+    post:
+      tags:
+        - Yelhen
+      summary: Create a new Yelhen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/yelhen"
+      responses:
+        "200":
+          description: Yelhen created successfully.
 components:
   schemas:
     yek_Details:
@@ -404,3 +431,17 @@ components:
       required:
         - name
         - clan_id
+    yelhen:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true

@@ -1,13 +1,13 @@
-import 'surname.dart';
+import 'surname.model.dart';
 
-class Clan {
+class ClanModel {
   final int? id;
   final String name;
   final DateTime? createdAt;
   final String? createdBy;
-  final List<Surname>? surnames;
+  final List<SurnameModel>? surnames;
 
-  Clan({
+  ClanModel({
     this.id,
     required this.name,
     this.createdAt,
@@ -25,8 +25,8 @@ class Clan {
     };
   }
 
-  factory Clan.fromJson(Map<String, dynamic> map) {
-    return Clan(
+  factory ClanModel.fromJson(Map<String, dynamic> map) {
+    return ClanModel(
       id: map['id'] != null ? int.tryParse(map['id'].toString()) : null,
       name: map['name'] ?? '',
       createdAt: map['created_at'] != null
@@ -35,20 +35,20 @@ class Clan {
       createdBy: map['created_by'],
       surnames: map['surnames'] != null
           ? (map['surnames'] as List)
-              .map((s) => Surname.fromJson(s))
+              .map((s) => SurnameModel.fromJson(s))
               .toList()
           : null,
     );
   }
 
-  Clan copyWith({
+  ClanModel copyWith({
     int? id,
     String? name,
     DateTime? createdAt,
     String? createdBy,
-    List<Surname>? surnames,
+    List<SurnameModel>? surnames,
   }) {
-    return Clan(
+    return ClanModel(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,

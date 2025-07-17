@@ -6,6 +6,7 @@ import 'database/db_connection.dart';
 import 'routes/clan_routes.dart';
 import 'routes/surname_routes.dart';
 import 'routes/yek_details_routes.dart';
+import 'routes/yelhen_routes.dart';
 
 
 import 'database/middleware/middleware.dart';
@@ -32,6 +33,8 @@ Future<void> main() async {
   app.mount('/clans', ClanRoutes(db).router.call);
   app.mount('/surnames', SurnameRoutes(db).router.call);
   app.mount('/yek_details', YekDetailsRoutes(db).route.call);
+  app.mount('/yelhen', YelhenRoutes(db).route.call);
+
 
 
   // Build middleware + handler pipeline

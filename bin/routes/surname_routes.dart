@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import '../models/surname.dart';
+import '../models/surname.model.dart';
 import '../database/db_connection.dart';
 
 class SurnameRoutes {
@@ -15,7 +15,7 @@ class SurnameRoutes {
 
     router.post('/', (Request request) async {
       final body = await request.readAsString();
-      final surname = Surname.fromJson(jsonDecode(body));
+      final surname = SurnameModel.fromJson(jsonDecode(body));
       await _connection.surnameTable.createSurname(surname);
       return Response.ok('Surname created');
     });
@@ -40,7 +40,7 @@ class SurnameRoutes {
 
     router.put('/<id>', (Request request, String id) async {
       final body = await request.readAsString();
-      final surname = Surname.fromJson(jsonDecode(body));
+      final surname = SurnameModel.fromJson(jsonDecode(body));
       await _connection.surnameTable.updateSurname(surname);
       return Response.ok('Surname updated');
     });

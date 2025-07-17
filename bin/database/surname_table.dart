@@ -1,4 +1,4 @@
-import '../models/surname.dart';
+import '../models/surname.model.dart';
 import 'db_connection.dart';
 
 class SurnameTable {
@@ -18,7 +18,7 @@ class SurnameTable {
     ''');
   }
 
-  Future<void> createSurname(Surname surname) async {
+  Future<void> createSurname(SurnameModel surname) async {
     final conn = _connection.pool;
     await conn.execute(
       'INSERT INTO surnames (name, clan_id) VALUES (:name, :clan_id)',
@@ -26,28 +26,28 @@ class SurnameTable {
     );
   }
 
-  Future<List<Surname>> getAllSurnames() async {
+  Future<List<SurnameModel>> getAllSurnames() async {
     final conn = _connection.pool;
     final result = await conn.execute('SELECT * FROM surnames');
-    return result.rows.map((row) => Surname.fromJson(row.assoc())).toList();
+    return result.rows.map((row) => SurnameModel.fromJson(row.assoc())).toList();
   }
 
-  Future<List<Surname>> getSurnamesByClanId(int clanId) async {
+  Future<List<SurnameModel>> getSurnamesByClanId(int clanId) async {
     final conn = _connection.pool;
     final result = await conn.execute('SELECT * FROM surnames WHERE clan_id = :clan_id', {'clan_id': clanId});
-    return result.rows.map((row) => Surname.fromJson(row.assoc())).toList();
+    return result.rows.map((row) => SurnameModel.fromJson(row.assoc())).toList();
   }
 
-  Future<Surname?> getSurnameById(int id) async {
+  Future<SurnameModel?> getSurnameById(int id) async {
     final conn = _connection.pool;
     final result = await conn.execute('SELECT * FROM surnames WHERE id = :id', {'id': id});
     if (result.rows.isNotEmpty) {
-      return Surname.fromJson(result.rows.first.assoc());
+      return SurnameModel.fromJson(result.rows.first.assoc());
     }
     return null;
   }
 
-  Future<void> updateSurname(Surname surname) async {
+  Future<void> updateSurname(SurnameModel surname) async {
     final conn = _connection.pool;
     await conn.execute(
       'UPDATE surnames SET name = :name, clan_id = :clan_id WHERE id = :id',

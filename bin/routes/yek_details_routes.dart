@@ -3,7 +3,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../database/db_connection.dart';
 import '../repository/yek_details_repository.dart';
-import '../models/yek_details.dart';
+import '../models/yek_details.model.dart';
 
 final header = {
   'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ class YekDetailsRoutes {
       } catch (e) {
         return Response(400, body: 'Invalid JSON format $e');
       }
-      final yekDetails = YekDetails.fromJson(jsonDecode(body));
+      final yekDetails = YekDetailsModel.fromJson(jsonDecode(body));
       await _yekDetailRepository.createYekDetails(yekDetails);
       return Response.ok('yek created');
     });

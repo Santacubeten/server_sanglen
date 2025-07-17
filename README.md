@@ -1,201 +1,119 @@
-# Dart Shelf Server
+# Sanglen Server
 
-This is a sample RESTful API built with Dart and the Shelf framework.
+This is a RESTful API built with Dart and the Shelf framework, designed to manage genealogical data, including clans, surnames, and other related details. It uses a MySQL database for data persistence and provides a Swagger UI for easy API exploration and testing.
 
-## API Usage
+## 📜 Table of Contents
 
-The base URL for the API is `http://localhost:3000`.
+- [✨ Features](#-features)
+- [🛠️ Getting Started](#️-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [🚀 Running the Server](#-running-the-server)
+- [📚 API Documentation](#-api-documentation)
+- [🏗️ Project Structure](#️-project-structure)
+- [🐳 Docker Support](#-docker-support)
 
+## ✨ Features
 
-### Clans
+- **RESTful API:** A well-structured API for managing clans, surnames, and more.
+- **Database Integration:** Uses MySQL for robust data storage.
+- **API Documentation:** Integrated with Swagger UI for clear and interactive API documentation.
+- **Dockerized:** Includes a `Dockerfile` for easy containerization and deployment.
 
-#### Create a Clan
+## 🛠️ Getting Started
 
-*   **Endpoint:** `/clans`
-*   **Method:** `POST`
-*   **Body:**
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-    ```json
-    {
-      "name": "New Clan Name",
-      "created_by": "Admin"
-    }
-    ```
+### Prerequisites
 
-*   **Example:**
+- [Dart SDK](https://dart.dev/get-dart) (version 3.3.0 or higher)
+- [MySQL](https://dev.mysql.com/downloads/installer/)
+- An IDE or text editor of your choice (e.g., [VS Code](https://code.visualstudio.com/))
 
-    ```bash
-    curl -X POST http://localhost:3000/clans -H "Content-Type: application/json" -d '{
-      "name": "New Clan Name",
-      "created_by": "Admin"
-    }'
-    ```
+### Installation
 
-#### Get All Clans
-
-*   **Endpoint:** `/clans`
-*   **Method:** `GET`
-*   **Example:**
+1.  **Clone the repository:**
 
     ```bash
-    curl http://localhost:3000/clans
+    git clone https://github.com/your-username/server_sanglen.git
+    cd server_sanglen
     ```
 
-#### Get a Clan by ID
-
-*   **Endpoint:** `/clans/<id>`
-*   **Method:** `GET`
-*   **Example:**
+2.  **Install dependencies:**
 
     ```bash
-    curl http://localhost:3000/clans/1
+    dart pub get
     ```
 
-#### Update a Clan
+3.  **Set up the database:**
+    - Make sure your MySQL server is running.
+    - Create a new database.
+    - Update the database connection details in `bin/database/db_connection.dart` with your MySQL credentials (host, port, user, password, and database name).
 
-*   **Endpoint:** `/clans/<id>`
-*   **Method:** `PUT`
-*   **Body:**
+## 🚀 Running the Server
 
-    ```json
-    {
-      "name": "Updated Clan Name",
-      "created_by": "Another Admin"
-    }
-    ```
+To start the server, run the following command from the project's root directory:
 
-*   **Example:**
+```bash
+dart run bin/server.dart
+```
 
-    ```bash
-    curl -X PUT http://localhost:3000/clans/1 -H "Content-Type: application/json" -d '{
-      "name": "Updated Clan Name",
-      "created_by": "Another Admin"
-    }'
-    ```
+The server will start on `http://localhost:3000`. You can see the server logs in your console, which will include the IP addresses the server is running on.
 
-#### Delete a Clan
+## 📚 API Documentation
 
-*   **Endpoint:** `/clans/<id>`
-*   **Method:** `DELETE`
-*   **Example:**
+The API is documented using Swagger UI. Once the server is running, you can access the interactive API documentation at:
 
-    ```bash
-    curl -X DELETE http://localhost:3000/clans/1
-    ```
+[http://localhost:3000/](http://localhost:3000/)
 
-### Surnames
+This interface provides a detailed overview of all available endpoints, their parameters, and response types, and allows you to test the API directly from your browser.
 
-#### Create a Surname
+## 🏗️ Project Structure
 
-*   **Endpoint:** `/surnames`
-*   **Method:** `POST`
-*   **Body:**
+Here’s a high-level overview of the project's structure:
 
-    ```json
-    {
-      "name": "New Surname",
-      "clan_id": 1
-    }
-    ```
+-   **`bin/server.dart`**: The main entry point of the application. It initializes the server, database connection, and routes.
+-   **`bin/config/`**: Contains configuration files, such as `swagger.yaml` for the API documentation.
+-   **`bin/database/`**: Manages all database-related logic, including the database connection (`db_connection.dart`), table creation scripts, and middleware.
+-   **`bin/models/`**: Defines the data structures (e.g., `Clan`, `Surname`) used throughout the application.
+-   **`bin/repository/`**: Contains the logic for interacting with the database, such as fetching, creating, updating, and deleting records.
+-   **`bin/routes/`**: Defines the API endpoints and maps them to the corresponding logic in the repositories.
+-   **`pubspec.yaml`**: The project's dependency management file.
+-   **`Dockerfile`**: A script for building the application as a Docker container.
+-   **`README.md`**: This file, providing an overview of the project.
 
-*   **Example:**
+## ➕ Adding a New Table
 
-    ```bash
-    curl -X POST http://localhost:3000/surnames -H "Content-Type: application/json" -d '{
-      "name": "New Surname",
-      "clan_id": 1
-    }'
-    ```
+To add a new table to the project, you'll need to create a few files and update the main server file. Here’s a step-by-step guide:
 
-#### Get All Surnames
+1.  **Create a Model:**
+    -   Create a new file in `bin/models/` that defines the data structure for your new table (e.g., `new_table.dart`).
 
-*   **Endpoint:** `/surnames`
-*   **Method:** `GET`
-*   **Example:**
+2.  **Create a Repository:**
+    -   Create a new file in `bin/repository/` to handle database operations for the new table (e.g., `new_table_repository.dart`).
 
-    ```bash
-    curl http://localhost:3000/surnames
-    ```
+3.  **Create a Routes File:**
+    -   Create a new file in `bin/routes/` to define the API endpoints for the new table (e.g., `new_table_routes.dart`).
 
-#### Get Surnames by Clan ID
+4.  **Update the Server:**
+    -   Open `bin/server.dart`.
+    -   Import your new routes file.
+    -   Mount the new routes in the `main()` function, similar to the existing routes.
 
-*   **Endpoint:** `/surnames/clan/<clanId>`
-*   **Method:** `GET`
-*   **Example:**
+This structure ensures that your new feature is well-organized and follows the project's existing architecture.
 
-    ```bash
-    curl http://localhost:3000/surnames/clan/1
-    ```
+## 🐳 Docker Support
 
-#### Get a Surname by ID
+This project includes a `Dockerfile` that allows you to build and run the application in a Docker container. To build the Docker image, run:
 
-*   **Endpoint:** `/surnames/<id>`
-*   **Method:** `GET`
-*   **Example:**
+```bash
+docker build -t sanglen-server .
+```
 
-    ```bash
-    curl http://localhost:3000/surnames/1
-    ```
+To run the container:
 
-#### Update a Surname
+```bash
+docker run -p 3000:3000 sanglen-server
+```
 
-*   **Endpoint:** `/surnames/<id>`
-*   **Method:** `PUT`
-*   **Body:**
-
-    ```json
-    {
-      "name": "Updated Surname",
-      "clan_id": 1
-    }
-    ```
-
-*   **Example:**
-
-    ```bash
-    curl -X PUT http://localhost:3000/surnames/1 -H "Content-Type: application/json" -d '{
-      "name": "Updated Surname",
-      "clan_id": 1
-    }'
-    ```
-
-#### Delete a Surname
-
-*   **Endpoint:** `/surnames/<id>`
-*   **Method:** `DELETE`
-*   **Example:**
-
-    ```bash
-    curl -X DELETE http://localhost:3000/surnames/1
-    ```
-
-## Project Structure (Easy English)
-
-Imagine this project is like a small restaurant:
-
-*   **`server.dart` (The Manager):** This is the main program. It starts the restaurant, connects to the kitchen (database), and waits for customers (your requests) to come in.
-
-*   **`todo_routes.dart`, `clan_routes.dart`, `surname_routes.dart` (The Menu):** These files list all the things you can do with "todo" items, "clans", and "surnames" like:
-    *   "Order a new item" (create)
-    *   "See all items" (read)
-    *   "Change an existing item" (update)
-    *   "Throw away an item" (delete)
-
-*   **`todo.dart`, `clan.dart`, `surname.dart` (The Recipe Cards):** These are the basic ideas of what a "todo", a "clan", and a "surname" look like.
-
-*   **`database/` folder (The Kitchen & Storage):**
-    *   `db_connection.dart` (The Kitchen Door): This handles getting into the database (our storage room).
-    *   `todo_table.dart`, `surname_table.dart` (The Chefs): These are the parts that actually talk to the database to save, get, or change your items.
-    *   `clan_repository.dart` is a specialized chef for clans.
-
-*   **`middleware/middleware.dart` (The Bouncer):** This checks every customer (request) before they get to the menu, making sure everything is allowed and safe.
-
-*   **`config/swagger.yaml` and `index.html` (The Instruction Manual):**
-    *   `swagger.yaml` is like a detailed book explaining every dish on the menu and how to order it.
-    *   `index.html` is the webpage that shows you this book in a nice, easy-to-read way.
-
-*   **`pubspec.yaml` (The Shopping List):** This file lists all the special ingredients (other software parts) the restaurant needs to run.
-
-*   **`README.md` (The Welcome Sign):** This is the first thing you see, telling you what the restaurant is about and how to use its services.
-
-So, in short, it's a small server that helps you manage your lists, clans, and surnames, stores them in a database, and even provides a nice instruction manual (Swagger) for how to use it!
+This will start the server inside a Docker container and map port `3000` to your local machine, allowing you to access the API at `http://localhost:3000`.

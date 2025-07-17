@@ -1,7 +1,7 @@
 import '../database/db_connection.dart';
 import '../database/surname_table.dart';
-import '../models/clan.dart';
-import '../models/surname.dart';
+import '../models/clan.model.dart';
+import '../models/surname.model.dart';
 
 class ClanRepository {
   final DBConnection _connection;
@@ -20,7 +20,7 @@ class ClanRepository {
     ''');
   }
 
-  Future<void> createClan(Clan clan) async {
+  Future<void> createClan(ClanModel clan) async {
     final conn = _connection.pool;
     await conn.execute(
       'INSERT INTO clans (name, created_by) VALUES (:name, :created_by)',
@@ -28,20 +28,20 @@ class ClanRepository {
     );
   }
 
-  Future<List<Clan>> getAllClans() async {
+  Future<List<ClanModel>> getAllClans() async {
     final conn = _connection.pool;
     final result = await conn.execute('SELECT * FROM clans');
-    final clans = <Clan>[];
+    final clans = <ClanModel>[];
     for (final row in result.rows) {
       final clanData = row.assoc();
       final clanId = int.parse(clanData['id']!);
       final surnames = await _surnameTable.getSurnamesByClanId(clanId);
-      clans.add(Clan.fromJson(clanData).copyWith(surnames: surnames));
+      clans.add(ClanModel.fromJson(clanData).copyWith(surnames: surnames));
     }
     return clans;
   }
 
-  Future<Clan?> getClanById(int id) async {
+  Future<ClanModel?> getClanById(int id) async {
     final conn = _connection.pool;
     final result =
         await conn.execute('SELECT * FROM clans WHERE id = :id', {'id': id});
@@ -49,12 +49,12 @@ class ClanRepository {
       final clanData = result.rows.first.assoc();
       final clanId = int.parse(clanData['id']!);
       final surnames = await _surnameTable.getSurnamesByClanId(clanId);
-      return Clan.fromJson(clanData).copyWith(surnames: surnames);
+      return ClanModel.fromJson(clanData).copyWith(surnames: surnames);
     }
     return null;
   }
 
-  Future<void> updateClan(Clan clan) async {
+  Future<void> updateClan(ClanModel clan) async {
     final conn = _connection.pool;
     await conn.execute(
       'UPDATE clans SET name = :name, created_by = :created_by WHERE id = :id',
@@ -68,15 +68,15 @@ class ClanRepository {
   }
 }
 
-extension ClanCopyWith on Clan {
-  Clan copyWith({
+extension ClanCopyWith on ClanModel {
+  ClanModel copyWith({
     int? id,
     String? name,
     DateTime? createdAt,
     String? createdBy,
-    List<Surname>? surnames,
+    List<SurnameModel>? surnames,
   }) {
-    return Clan(
+    return ClanModel(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,

@@ -1,9 +1,9 @@
-class Surname {
+class SurnameModel {
   final int? id;
   final String name;
   final int clanId;
 
-  Surname({
+  SurnameModel({
     this.id,
     required this.name,
     required this.clanId,
@@ -17,8 +17,8 @@ class Surname {
     };
   }
 
-  factory Surname.fromJson(Map<String, dynamic> map) {
-    return Surname(
+  factory SurnameModel.fromJson(Map<String, dynamic> map) {
+    return SurnameModel(
       id: map['id'] != null ? int.tryParse(map['id'].toString()) : null,
       name: map['name'] ?? '',
       clanId: int.parse(map['clan_id'].toString()),

@@ -1,5 +1,5 @@
 import '../database/db_connection.dart';
-import '../models/yek_details.dart';
+import '../models/yek_details.model.dart';
 
 class YekDetailRepository {
   final DBConnection _connection;
@@ -27,7 +27,7 @@ class YekDetailRepository {
   }
 
   /// ✅ Insert a new yek detail
-  Future<void> createYekDetails(YekDetails yekDetails) async {
+  Future<void> createYekDetails(YekDetailsModel yekDetails) async {
     final conn = _connection.pool;
 
     await conn.execute(
@@ -51,7 +51,7 @@ class YekDetailRepository {
   }
 
   /// ✅ Get all yek details
-  Future<List<YekDetails>> getAllYekDetails() async {
+  Future<List<YekDetailsModel>> getAllYekDetails() async {
     final conn = _connection.pool;
 
     final results = await conn.execute('SELECT * FROM yek_details');
@@ -59,7 +59,7 @@ class YekDetailRepository {
     return results.rows.map((row) {
       final data = row.assoc();
 
-      return YekDetails.fromJson({
+      return YekDetailsModel.fromJson({
         'id': int.tryParse(data['id'] ?? ''),
         'clan_id': int.parse(data['clan_id'] ?? '0'),
         'firewood': data['firewood'] ?? '',
@@ -74,7 +74,7 @@ class YekDetailRepository {
   }
 
   /// ✅ Get a single yek detail by ID
-  Future<YekDetails?> getYekDetailById(int id) async {
+  Future<YekDetailsModel?> getYekDetailById(int id) async {
     final conn = _connection.pool;
 
     final result = await conn.execute(
@@ -86,7 +86,7 @@ class YekDetailRepository {
 
     final data = result.rows.first.assoc();
 
-    return YekDetails.fromJson({
+    return YekDetailsModel.fromJson({
       'id': int.tryParse(data['id'] ?? ''),
       'clan_id': int.parse(data['clan_id'] ?? '0'),
       'firewood': data['firewood'] ?? '',
@@ -100,7 +100,7 @@ class YekDetailRepository {
   }
 
   /// ✅ Get a single yek detail by ID
-  Future<YekDetails?> getYekDetailsByClanId(int clanId) async {
+  Future<YekDetailsModel?> getYekDetailsByClanId(int clanId) async {
     final conn = _connection.pool;
 
     final result = await conn.execute(
@@ -112,7 +112,7 @@ class YekDetailRepository {
 
     final data = result.rows.first.assoc();
 
-    return YekDetails.fromJson({
+    return YekDetailsModel.fromJson({
       'id': int.tryParse(data['id'] ?? ''),
       'clan_id': int.parse(data['clan_id'] ?? '0'),
       'firewood': data['firewood'] ?? '',

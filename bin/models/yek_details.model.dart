@@ -1,4 +1,4 @@
-class YekDetails {
+class YekDetailsModel {
   final int? id;
   final int clanId;
   final String firewood;
@@ -9,7 +9,7 @@ class YekDetails {
   final String? sword;
   final DateTime? createdAt;
 
-  YekDetails({
+  YekDetailsModel({
     this.id,
     required this.clanId,
     required this.firewood,
@@ -37,8 +37,8 @@ class YekDetails {
   }
 
   // ✅ Create object from JSON
-  factory YekDetails.fromJson(Map<String, dynamic> json) {
-    return YekDetails(
+  factory YekDetailsModel.fromJson(Map<String, dynamic> json) {
+    return YekDetailsModel(
       id: json['id'] as int?,
       clanId: json['clan_id'] as int,
       firewood: json['firewood'] as String,
@@ -54,7 +54,7 @@ class YekDetails {
   }
 
   // ✅ Optional: copyWith
-  YekDetails copyWith({
+  YekDetailsModel copyWith({
     int? id,
     int? clanId,
     String? firewood,
@@ -65,7 +65,7 @@ class YekDetails {
     String? sword,
     DateTime? createdAt,
   }) {
-    return YekDetails(
+    return YekDetailsModel(
       id: id ?? this.id,
       clanId: clanId ?? this.clanId,
       firewood: firewood ?? this.firewood,
