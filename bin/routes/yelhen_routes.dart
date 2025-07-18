@@ -4,10 +4,9 @@ import 'package:shelf_router/shelf_router.dart';
 import '../database/db_connection.dart';
 import '../repository/yelhen_repository.dart';
 import '../models/yelhen.model.dart';
+import '../config/utils/response_helper.dart';
 
-final header = {
-  'Content-Type': 'application/json',
-};
+
 
 class YelhenRoutes {
   final DBConnection _connection;
@@ -25,24 +24,35 @@ class YelhenRoutes {
         final body = await request.readAsString();
         final yelhen = YelhenModel.fromJson(jsonDecode(body));
         await _yelhenRepository.createYelhen(yelhen);
-        return Response.ok('Yelhen created');
+        return AppResponse.success(
+          message: 'Yelhen created successfully',
+          data: yelhen.toJson(),
+        );
       } catch (e) {
-        return Response(400, body: 'Invalid request: ${e.toString()}');
+        return AppResponse.error(
+          message: 'Error creating Yelhen: ${e.toString()}',
+          code: 400,
+        );
       }
     });
 
     router.get('/', (Request request) async {
       final yelhens = await _yelhenRepository.getAllYelhens();
-      return Response.ok(jsonEncode(yelhens.map((e) => e.toJson()).toList()),
-          headers: header);
+    return AppResponse.success(
+        data: yelhens.map((e) => e.toJson()).toList(),
+      );
     });
 
     router.get('/<id>', (Request request, String id) async {
       final yelhen = await _yelhenRepository.getYelhenById(int.parse(id));
       if (yelhen != null) {
-        return Response.ok(jsonEncode(yelhen.toJson()), headers: header);
+       return AppResponse.success(data: yelhen.toJson());
+      }else {
+        return AppResponse.notFound(
+          message: 'Yelhen not found with ID: $id',
+        );
       }
-      return Response.notFound('Yelhen not found');
+  
     });
 
     router.get('/by_clan_id/<clanId>', (Request request, String clanId) async {
@@ -54,8 +64,9 @@ class YelhenRoutes {
           return Response.notFound('No Yelhens found for clan ID: $clanId');
         }
 
-        return Response.ok(jsonEncode(yelhens.map((e) => e.toJson()).toList()),
-            headers: header);
+        return AppResponse.success(
+          data: yelhens.map((e) => e.toJson()).toList(),
+        );
       } catch (e) {
         return Response(400, body: 'Invalid clan ID format: $clanId');
       }
@@ -63,7 +74,9 @@ class YelhenRoutes {
 
     router.delete('/<id>', (Request request, String id) async {
       await _yelhenRepository.deleteYelhen(int.parse(id));
-      return Response.ok('Yelhen deleted');
+      return AppResponse.success(
+        message: 'Yelhen deleted successfully',
+      );
     });
 
     return router;

@@ -4,6 +4,7 @@ import 'package:shelf_router/shelf_router.dart';
 import '../models/clan.model.dart';
 import '../database/db_connection.dart';
 import '../repository/clan_repository.dart';
+import '../config/utils/response_helper.dart';
 
 class ClanRoutes {
   final DBConnection _connection;
@@ -20,32 +21,38 @@ class ClanRoutes {
       final body = await request.readAsString();
       final clan = ClanModel.fromJson(jsonDecode(body));
       await _clanRepository.createClan(clan);
-      return Response.ok('Clan created');
+      return AppResponse.success(
+        message: 'Clan created successfully',
+        data: clan.toJson(),
+      );
     });
 
     router.get('/', (Request request) async {
       final clans = await _clanRepository.getAllClans();
-      return Response.ok(jsonEncode(clans.map((e) => e.toJson()).toList()));
+      return AppResponse.success(data: clans.map((c) => c.toJson()).toList());
     });
 
     router.get('/<id>', (Request request, String id) async {
       final clan = await _clanRepository.getClanById(int.parse(id));
       if (clan != null) {
-        return Response.ok(jsonEncode(clan.toJson()));
+        return AppResponse.success(data: clan.toJson());
       }
-      return Response.notFound('Clan not found');
+      return AppResponse.notFound(message: 'Clan not found with ID: $id');
     });
 
     router.put('/<id>', (Request request, String id) async {
       final body = await request.readAsString();
       final clan = ClanModel.fromJson(jsonDecode(body));
       await _clanRepository.updateClan(clan);
-      return Response.ok('Clan updated');
+      return AppResponse.success(
+        message: 'Clan updated successfully',
+        data: clan.toJson(),
+      );
     });
 
     router.delete('/<id>', (Request request, String id) async {
       await _clanRepository.deleteClan(int.parse(id));
-      return Response.ok('Clan deleted');
+      return AppResponse.success(message: 'Clan deleted successfully');
     });
 
     return router;

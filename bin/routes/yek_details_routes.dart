@@ -4,10 +4,9 @@ import 'package:shelf_router/shelf_router.dart';
 import '../database/db_connection.dart';
 import '../repository/yek_details_repository.dart';
 import '../models/yek_details.model.dart';
+import '../config/utils/response_helper.dart';
 
-final header = {
-  'Content-Type': 'application/json',
-};
+
 
 class YekDetailsRoutes {
   final DBConnection _connection;
@@ -26,30 +25,32 @@ class YekDetailsRoutes {
       try {
         jsonDecode(body);
       } catch (e) {
-        return Response(400, body: 'Invalid JSON format $e');
+        return AppResponse.error(
+          message: 'Invalid JSON format: ${e.toString()}',
+          code: 400,
+        );
       }
       final yekDetails = YekDetailsModel.fromJson(jsonDecode(body));
       await _yekDetailRepository.createYekDetails(yekDetails);
-      return Response.ok('yek created');
+      return AppResponse.success(
+        message: 'Yek details created successfully',
+        data: yekDetails.toJson(),
+      );
     });
     router.get('/', (Request request) async {
       final yekDetails = await _yekDetailRepository.getAllYekDetails();
-      return Response.ok(
-          jsonEncode(yekDetails
-              .map(
-                (e) => e.toJson(),
-              )
-              .toList()),
-          headers: header);
+      return AppResponse.success(
+        data: yekDetails.map((e) => e.toJson()).toList(),
+      );
     });
 
     router.get('/<id>', (Request request, String id) async {
       final yekDetails =
           await _yekDetailRepository.getYekDetailById(int.parse(id));
       if (yekDetails != null) {
-        return Response.ok(jsonEncode(yekDetails.toJson()),headers:header);
+        return AppResponse.success(data: yekDetails.toJson());
       }
-      return Response.notFound('Yek details not found');
+      return AppResponse.notFound(message: 'Yek Detail not found with ID: $id');
     });
     router.get('/by_clan_id/<clanId>', (Request request, String clanId) async {
       try {
@@ -57,12 +58,18 @@ class YekDetailsRoutes {
         final yekDetail = await _yekDetailRepository.getYekDetailsByClanId(id);
 
         if (yekDetail == null) {
-          return Response.notFound('Yek Detail not found for clan ID: $clanId');
+          return AppResponse.notFound(
+            message: 'No Yek details found for clan ID: $clanId',
+          );
         }
-
-        return Response.ok(jsonEncode(yekDetail.toJson()), headers: header);
+        return AppResponse.success(
+          data: jsonEncode(yekDetail.toJson()),
+        );
       } catch (e) {
-        return Response.internalServerError(body: 'Error: ${e.toString()}');
+        return AppResponse.error(
+          message: 'Invalid clan ID format: $clanId',
+          code: 400,
+        );
       }
     });
 
@@ -75,24 +82,32 @@ class YekDetailsRoutes {
         data.removeWhere((key, value) => value == null);
 
         if (data.isEmpty) {
-          return Response(400, body: 'No valid fields provided for update.');
+          return AppResponse.error(
+            message: 'No valid fields provided for update',
+            code: 400,
+          );
         }
 
         final parsedId = int.tryParse(id);
         if (parsedId == null) {
-          return Response(400, body: 'Invalid ID');
+          return AppResponse.error(
+            message: 'Invalid ID format: $id',
+            code: 400,
+          );
         }
 
         await _yekDetailRepository.updatePartialYekDetails(parsedId, data);
-        return Response.ok('Yek details updated');
       } catch (e) {
-        return Response.internalServerError(body: 'Error: $e');
+        return AppResponse.error(
+          message: 'Error updating Yek details: ${e.toString()}',
+          code: 400,
+        );
       }
     });
 
     router.delete('/<id>', (Request request, String id) async {
       await _yekDetailRepository.deleteYekDetail(int.parse(id));
-      return Response.ok('Yek details deleted');
+      return AppResponse.success(message: 'Yek detail deleted successfully');
     });
 
     router.post('/yekthoknabra', (Request request) async {
@@ -100,14 +115,25 @@ class YekDetailsRoutes {
       final data = jsonDecode(body);
 
       if (data['ahanba_yumak_id'] == null || data['akomba_yumak_id'] == null) {
-        return Response(400, body: 'Invalid input data');
+        return AppResponse.error(
+          message: 'ahanba_yumak_id and akomba_yumak_id are required',
+          code: 400,
+        );
       }
       final phol = await _yekDetailRepository.yekThonknabra(
         data['ahanba_yumak_id'],
         data['akomba_yumak_id'],
       );
 
-      return Response.ok(jsonEncode(phol), headers: header);
+      if (phol == null) {
+        return AppResponse.notFound(
+          message: 'No Yek Thonknabra found for the provided IDs',
+        );
+      }
+      return AppResponse.success(
+        data: phol,
+        message: 'Yek Thonknabra retrieved successfully',
+      );
     });
 
     return router;

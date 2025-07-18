@@ -28,7 +28,7 @@ class YelhenRepository {
   /// CREATE (Insert new yelhen)
   Future<void> createYelhen(YelhenModel yelhen) async {
     final db = _connection.pool;
-    
+
     final missingKeys = validateRequiredParams(
       model: yelhen,
       params: ['name', 'description', 'clan_id'],
@@ -59,14 +59,15 @@ class YelhenRepository {
   Future<List<YelhenModel>> getAllYelhens() async {
     final db = _connection.pool;
     final result = await db.execute('SELECT * FROM yelhen');
+    // print(result.rows.first);
 
-    return result.rows.map((row) {
+    return result.rows.map((row) {  
+
       return YelhenModel(
-        id: row.colByName('id') as int,
-        name: row.colByName('name') as String,
-        clanId:
-            row.colByName('clan_id') as int, // Assuming description is optional
-        description: row.colByName('description'),
+        id: int.tryParse('${row.colByName('id')}') ?? 0,
+        name: '${row.colByName('name')}',
+        clanId: int.tryParse('${row.colByName('clan_id')}') ?? 0,
+        description: row.colByName('description')?.toString(),
       );
     }).toList();
   }
@@ -84,12 +85,10 @@ class YelhenRepository {
 
     final row = result.rows.first;
     return YelhenModel(
-      id: row.colByName('id') as int,
-      name: row.colByName('name') as String,
-      clanId:
-          row.colByName('clan_id') as int, // Assuming description is optional
-
-      description: row.colByName('description'),
+      id: int.tryParse('${row.colByName('id')}') ?? 0,
+        name: '${row.colByName('name')}',
+        clanId: int.tryParse('${row.colByName('clan_id')}') ?? 0,
+        description: row.colByName('description')?.toString(),
     );
   }
 
@@ -103,10 +102,10 @@ class YelhenRepository {
 
     return result.rows.map((row) {
       return YelhenModel(
-        id: row.colByName('id') as int,
-        name: row.colByName('name') as String,
-        clanId: row.colByName('clan_id') as int,
-        description: row.colByName('description'),
+       id: int.tryParse('${row.colByName('id')}') ?? 0,
+        name: '${row.colByName('name')}',
+        clanId: int.tryParse('${row.colByName('clan_id')}') ?? 0,
+        description: row.colByName('description')?.toString(),
       );
     }).toList();
   }
