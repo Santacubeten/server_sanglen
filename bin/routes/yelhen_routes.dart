@@ -6,8 +6,6 @@ import '../repository/yelhen_repository.dart';
 import '../models/yelhen.model.dart';
 import '../config/utils/response_helper.dart';
 
-
-
 class YelhenRoutes {
   final DBConnection _connection;
   late final YelhenRepository _yelhenRepository;
@@ -38,7 +36,7 @@ class YelhenRoutes {
 
     router.get('/', (Request request) async {
       final yelhens = await _yelhenRepository.getAllYelhens();
-    return AppResponse.success(
+      return AppResponse.success(
         data: yelhens.map((e) => e.toJson()).toList(),
       );
     });
@@ -46,13 +44,12 @@ class YelhenRoutes {
     router.get('/<id>', (Request request, String id) async {
       final yelhen = await _yelhenRepository.getYelhenById(int.parse(id));
       if (yelhen != null) {
-       return AppResponse.success(data: yelhen.toJson());
-      }else {
+        return AppResponse.success(data: yelhen.toJson());
+      } else {
         return AppResponse.notFound(
           message: 'Yelhen not found with ID: $id',
         );
       }
-  
     });
 
     router.get('/by_clan_id/<clanId>', (Request request, String clanId) async {
@@ -61,14 +58,19 @@ class YelhenRoutes {
         final yelhens = await _yelhenRepository.getYelhensByClanId(id);
 
         if (yelhens.isEmpty) {
-          return Response.notFound('No Yelhens found for clan ID: $clanId');
+          return AppResponse.notFound(
+            message: 'No Yelhens found for clan ID: $clanId',
+          );
         }
 
         return AppResponse.success(
           data: yelhens.map((e) => e.toJson()).toList(),
         );
       } catch (e) {
-        return Response(400, body: 'Invalid clan ID format: $clanId');
+        return AppResponse.error(
+          message: 'Invalid clan ID: $clanId',
+          code: 400,
+        );
       }
     });
 

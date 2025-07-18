@@ -2,6 +2,8 @@ import 'package:mysql_client/mysql_client.dart';
 import '../repository/clan_repository.dart';
 import '../repository/yek_details_repository.dart';
 import '../repository/yelhen_repository.dart';
+import '../repository/apokpa_khoiramba_numit.repository.dart';
+import '../routes/apokpa_khoiramba_numit.routes.dart';
 
 import './surname_table.dart';
 
@@ -16,6 +18,7 @@ class DBConnection {
   late final ClanRepository clanTable;
   late final YekDetailRepository yekDetailRepository;
   late final YelhenRepository yelhenRepository;
+  late final ApokpaKhoirambaNumitRepository apokpaKhoirambaNumitRepository;
 
   /* ---------- Helpers ---------- */
   Future<int> _rowCount(String tableName) async {
@@ -55,10 +58,13 @@ class DBConnection {
       surnameTable = SurnameTable(this);
       yekDetailRepository = YekDetailRepository(this);
       yelhenRepository = YelhenRepository(this);
+      apokpaKhoirambaNumitRepository = ApokpaKhoirambaNumitRepository(this);
       await clanTable.createTable();
       await surnameTable.createTable();
       await yekDetailRepository.createTable();
       await yelhenRepository.createTable();
+      await apokpaKhoirambaNumitRepository.createTable();
+
       await seedData();
 
       print('✅ Database connected & seeded.');
