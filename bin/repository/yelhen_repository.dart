@@ -43,8 +43,8 @@ class YelhenRepository {
     }
     await db.execute(
       '''
-      INSERT INTO yelhen (name, description) 
-      VALUES (:name, :description)
+      INSERT INTO yelhen (name, description,clan_id) 
+      VALUES (:name, :description, :clan_id)
       ''',
       {
         'name': yelhen.name,

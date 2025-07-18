@@ -16,7 +16,7 @@ class YelhenModel {
       id: json['id'] != null ? json['id'] as int : null,
       name: json['name'] as String,
       description: json['description'] as String?,
-      clanId: json['clan_id'] ?? json['clanId'], // Support both keys
+      clanId: json['clan_id'] ?? json['clan_id'], // Support both keys
     );
   }
 

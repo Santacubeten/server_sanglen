@@ -21,15 +21,14 @@ class YelhenRoutes {
     final router = Router();
 
     router.post('/', (Request request) async {
-      final body = await request.readAsString();
       try {
-        jsonDecode(body);
+        final body = await request.readAsString();
+        final yelhen = YelhenModel.fromJson(jsonDecode(body));
+        await _yelhenRepository.createYelhen(yelhen);
+        return Response.ok('Yelhen created');
       } catch (e) {
-        return Response(400, body: 'Invalid JSON format $e');
+        return Response(400, body: 'Invalid request: ${e.toString()}');
       }
-      final yelhen = YelhenModel.fromJson(jsonDecode(body));
-      await _yelhenRepository.createYelhen(yelhen);
-      return Response.ok('Yelhen created');
     });
 
     router.get('/', (Request request) async {
