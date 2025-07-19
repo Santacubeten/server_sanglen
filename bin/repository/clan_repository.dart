@@ -41,6 +41,26 @@ class ClanRepository {
     return clans;
   }
 
+  Future<List<Map<String, dynamic>>> getOrigin() async {
+    final conn = _connection.pool;
+    final result = await conn.execute('SELECT * FROM clans');
+    final nodes = <Map<String, dynamic>>[];
+
+    for (final row in result.rows) {
+      final clanData = row.assoc();
+
+      nodes.add({
+        'id': int.parse(clanData['id']!),
+        'name': clanData['name'],
+        'origin_id': clanData['origin_id'] != null
+            ? int.tryParse(clanData['origin_id']!)
+            : null,
+      });
+    }
+
+    return nodes;
+  }
+
   Future<ClanModel?> getClanById(int id) async {
     final conn = _connection.pool;
     final result =

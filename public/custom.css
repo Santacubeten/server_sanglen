@@ -1,0 +1,15 @@
+
+@font-face {
+  font-family: 'meitei_mayek';
+  src: url('/meitei_mayek.ttf') format('truetype');
+}
+
+body {
+ 
+ margin: 0;
+}
+
+h2 {
+  font-family: 'meitei_mayek', sans-serif !important;
+}
+

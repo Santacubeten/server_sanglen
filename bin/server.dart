@@ -25,8 +25,18 @@ Future<void> main() async {
   
 
   app.get("/swagger.yaml", (shelf.Request request) {
-    return shelf.Response.ok(File('bin/config/swagger.yaml').readAsStringSync(),
+    return shelf.Response.ok(File('public/swagger.yaml').readAsStringSync(),
         headers: {'content-type': 'text/yaml'});
+  });
+
+  app.get("/custom.css", (shelf.Request request) {
+    return shelf.Response.ok(File('public/custom.css').readAsStringSync(),
+        headers: {'content-type': 'text/css'});
+  });
+
+  app.get("/meitei_mayek.ttf", (shelf.Request request) {
+    return shelf.Response.ok(File('public/meitei_mayek.ttf').readAsBytesSync(),
+        headers: {'content-type': 'font/ttf'});
   });
 
   // Mount the /todos routes
@@ -69,6 +79,6 @@ Future<void> main() async {
 }
 
 shelf.Response serveHTML(shelf.Request request) {
-  return shelf.Response.ok(File('index.html').readAsStringSync(),
+  return shelf.Response.ok(File('public/index.html').readAsStringSync(),
       headers: {'content-type': 'text/html'});
 }

@@ -32,6 +32,11 @@ class ClanRoutes {
       return AppResponse.success(data: clans.map((c) => c.toJson()).toList());
     });
 
+    router.get('/origin', (Request request) async {
+      final clans = await _clanRepository.getOrigin();
+      return AppResponse.success(data: clans);
+    });
+
     router.get('/<id>', (Request request, String id) async {
       final clan = await _clanRepository.getClanById(int.parse(id));
       if (clan != null) {

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Sanglen Yek Salai API
+  title: Yek Salai API
   description: |
     A simple API for Meitei Yek Salai.
     <br>
@@ -17,9 +17,11 @@ servers:
     description: Home
 tags:
   - name: Clan
-    description: Operations about clans
+    description: Yek
   - name: Surname
-    description: Operations about surnames
+    description: Sagei
+  - name: Yek Details
+    description: Yek Akumpa marol
 paths:
   /clans:
     get:
