@@ -9,7 +9,6 @@ info:
     [Open VS Code](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
   version: 1.0.0
 servers:
-
   - url: http://10.10.1.38:3000
     description: Server running PC
   - url: http://localhost:3000
@@ -354,6 +353,94 @@ paths:
       responses:
         "200":
           description: Yelhen created successfully.
+  /apokpa_khoiramba_numit:
+    get:
+      tags:
+        - Apokpa Khoiramba Numit
+      summary: Get Apokpa Khoiramba Numit
+      responses:
+        "200":
+          description: A list of Apokpa Khoiramba Numit.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "1st January, 2023"
+    post:
+      tags:
+        - Apokpa Khoiramba Numit
+      summary: Create a new Apokpa Khoiramba Numit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numit:
+                  type: string
+                clan_id:
+                  type: integer
+      responses:
+        "200":
+          description: Apokpa Khoiramba Numit created successfully.
+    delete:
+      tags:
+        - Apokpa Khoiramba Numit
+      summary: Delete Apokpa Khoiramba Numit by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Apokpa Khoiramba Numit deleted successfully.
+  /apokpa_khoiramba_numit/{id}:
+    get:
+      tags:
+        - Apokpa Khoiramba Numit
+      summary: Get Apokpa Khoiramba Numit by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single Apokpa Khoiramba Numit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apokpa_khoiramba_numit"
+        "404":
+          description: Apokpa Khoiramba Numit not found.
+  /apokpa_khoiramba_numit/by_clan_id/{clanId}:
+    get:
+      tags:
+        - Apokpa Khoiramba Numit
+      summary: Get Apokpa Khoiramba Numit by Clan ID
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of Apokpa Khoiramba Numit for the given Clan ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/apokpa_khoiramba_numit"
+        "404":
+          description: Apokpa Khoiramba Numit not found for given Clan ID
 components:
   schemas:
     yek_Details:
@@ -445,3 +532,20 @@ components:
           type: string
           format: date-time
           readOnly: true
+    apokpa_khoiramba_numit:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        numit:
+          type: string
+        clan_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - numit
+        - clan_id
