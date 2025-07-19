@@ -353,6 +353,61 @@ paths:
       responses:
         "200":
           description: Yelhen created successfully.
+    delete:
+      tags:
+        - Yelhen
+      summary: Delete a Yelhen by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Yelhen deleted successfully.
+  /yelhen/{id}:
+    get:
+      tags:
+        - Yelhen
+      summary: Get a Yelhen by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single Yelhen.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/yelhen"
+        "404":
+          description: Yelhen not found.
+  /yelhen/by_clan_id/{clanId}:
+    get:
+      tags:
+        - Yelhen
+      summary: Get Yelhen by Clan ID
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of Yelhen for the given Clan ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/yelhen"
+        "404":
+          description: Yelhen not found for given Clan ID
   /apokpa_khoiramba_numit:
     get:
       tags:
