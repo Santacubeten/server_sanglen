@@ -3,13 +3,7 @@ import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 import 'database/db_connection.dart';
-import 'routes/clan_routes.dart';
-import 'routes/surname_routes.dart';
-import 'routes/yek_details_routes.dart';
-import 'routes/apokpa_khoiramba_numit.routes.dart';
-import 'routes/yelhen_routes.dart';
-
-
+import 'routes/routes.dart';
 import 'database/middleware/middleware.dart';
 
 Future<void> main() async {
@@ -39,8 +33,12 @@ Future<void> main() async {
         headers: {'content-type': 'font/ttf'});
   });
 
+
+
   // Mount the /todos routes
   // app.mount('/todos', TodoRoutes(db).router.call);
+  app.mount('/auth', AuthRoutes(db).router.call);
+  app.mount('/users', UserRoute(db).router.call);
   app.mount('/clans', ClanRoutes(db).router.call);
   app.mount('/surnames', SurnameRoutes(db).router.call);
   app.mount('/yek_details', YekDetailsRoutes(db).route.call);
@@ -54,6 +52,7 @@ Future<void> main() async {
   final handler = const shelf.Pipeline()
       .addMiddleware(shelf.logRequests())
       .addMiddleware(corsMiddleware) // your custom CORS middleware
+      .addMiddleware(jwtAuthMiddleware) // add database middleware
       .addHandler(app.call);
 
   // Start server

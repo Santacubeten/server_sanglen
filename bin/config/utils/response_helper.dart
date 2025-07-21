@@ -27,4 +27,9 @@ class AppResponse {
   static Response notFound({String message = 'Resource not found'}) {
     return error(message: message, code: 404);
   }
+
+  //authentication error
+  static Response unauthorized({String message = 'Unauthorized access'}) {
+    return error(message: message, code: 401);
+  }
 }

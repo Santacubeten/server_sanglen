@@ -4,6 +4,7 @@ import '../repository/yek_details_repository.dart';
 import '../repository/yelhen_repository.dart';
 import '../repository/apokpa_khoiramba_numit.repository.dart';
 import '../routes/apokpa_khoiramba_numit.routes.dart';
+import '../repository/user.repository.dart';
 
 import './surname_table.dart';
 
@@ -14,6 +15,7 @@ class DBConnection {
   static DBConnection get instance => _instance;
 
   late final MySQLConnectionPool pool;
+  late final UserRepository userTable;
   late final SurnameTable surnameTable;
   late final ClanRepository clanTable;
   late final YekDetailRepository yekDetailRepository;
@@ -53,12 +55,14 @@ class DBConnection {
         databaseName: 'sanglen',
         maxConnections: 10,
       );
-
+      userTable = UserRepository(this);
       clanTable = ClanRepository(this);
       surnameTable = SurnameTable(this);
       yekDetailRepository = YekDetailRepository(this);
       yelhenRepository = YelhenRepository(this);
       apokpaKhoirambaNumitRepository = ApokpaKhoirambaNumitRepository(this);
+      
+      await userTable.createTable();
       await clanTable.createTable();
       await surnameTable.createTable();
       await yekDetailRepository.createTable();
