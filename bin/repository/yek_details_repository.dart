@@ -8,6 +8,7 @@ class YekDetailRepository {
 
   /// ✅ Create the 'yek_details' table if it doesn't exist
   Future<void> createTable() async {
+    print('Creating yek_details table if not exists');
     final conn = _connection.pool;
 
     await conn.execute('''

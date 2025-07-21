@@ -10,6 +10,7 @@ class ClanRepository {
   ClanRepository(this._connection) : _surnameTable = SurnameTable(_connection);
 
   Future<void> createTable() async {
+    print('Creating clans table if not exists');
     final conn = _connection.pool;
     await conn.execute('''
       CREATE TABLE IF NOT EXISTS clans (

@@ -6,6 +6,7 @@ class ApokpaKhoirambaNumitRepository {
   ApokpaKhoirambaNumitRepository(this._connection);
 
   Future<void> createTable() async {
+    print('Creating apokpa_khoiramba_numit table if not exists');
     final conn = _connection.pool;
     await conn.execute('''
   CREATE TABLE IF NOT EXISTS apokpa_khoiramba_numit (

@@ -28,12 +28,17 @@ class UserRoute {
 
     //create user
     router.post('/', (Request request) async {
+      // get the bear token from the request header
+      final authHeader = request.headers['Authorization'];
+      final token = authHeader!.substring(7); // Remove 'Bearer ' prefix
+
       final body = await request.readAsString();
       final user = User.fromJson(jsonDecode(body));
-      await _connection.userTable.createUser(user);
-      return AppResponse.success(
-        message: 'User created successfully',
-      );
+      await _connection.userTable.createUser(user, token);
+      return AppResponse.success(message: 'User created successfully', data: {
+        'username': user.username,
+        'email': user.email,
+      });
     });
 
     // //reset password

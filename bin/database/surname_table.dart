@@ -7,6 +7,7 @@ class SurnameTable {
   SurnameTable(this._connection);
 
   Future<void> createTable() async {
+    print('Creating surnames table if not exists');
     final conn = _connection.pool;
     await conn.execute('''
       CREATE TABLE IF NOT EXISTS surnames (

@@ -1,3 +1,4 @@
+import 'package:bcrypt/bcrypt.dart';
 import 'package:mysql_client/mysql_client.dart';
 import '../repository/clan_repository.dart';
 import '../repository/yek_details_repository.dart';
@@ -30,7 +31,7 @@ class DBConnection {
 
   /* ---------- Init / Connect ---------- */
   Future<void> initDatabase() async {
-    print('Checking / Creating database …');
+    print('Initializing database…');
     final conn = await MySQLConnection.createConnection(
       host: '127.0.0.1',
       port: 3306,
@@ -61,7 +62,7 @@ class DBConnection {
       yekDetailRepository = YekDetailRepository(this);
       yelhenRepository = YelhenRepository(this);
       apokpaKhoirambaNumitRepository = ApokpaKhoirambaNumitRepository(this);
-      
+
       await userTable.createTable();
       await clanTable.createTable();
       await surnameTable.createTable();
@@ -247,6 +248,24 @@ class DBConnection {
           yek,
         );
       }
+    }
+
+    // user
+    if (await _rowCount('users') == 0) {
+      await pool.execute(
+        'INSERT INTO users (`id`, `username`, `password`, `email`, `role`, `status`, `created_at`, `created_by`, `jwt_token`) VALUES (:id, :username, :password, :email, :role, :status, NOW(), :created_by, :jwt_token)',
+        {
+          'id': 1,
+          'username': 'admin',
+          'password': BCrypt.hashpw("admin", BCrypt.gensalt()), // bcrypt hash
+          'email': 'admin@cubeten.com',
+          'role': '1',
+          'status': 1,
+          'created_by': 'system',
+          'jwt_token': 'imadmin',
+        },
+      );
+      print('✅ Admin user seeded.');
     }
   }
 

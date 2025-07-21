@@ -11,6 +11,7 @@ class YelhenRepository {
   // ─────────────────────────────────────────────────────────────
   /// CREATE TABLE if not exists
   Future<void> createTable() async {
+    print('Creating yelhen table if not exists');
     final db = _connection.pool;
     await db.execute('''
       CREATE TABLE IF NOT EXISTS yelhen (

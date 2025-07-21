@@ -1,8 +1,12 @@
-import 'package:bcrypt/bcrypt.dart';
+import 'dart:math';
 
+import 'package:bcrypt/bcrypt.dart';
+import '../handler/jwt.generator.dart';
 import '../database/db_connection.dart';
 import '../models/modes.dart';
 import '../config/utils/validation_helper.dart';
+import '../handler/mailer.dart';
+import '../config/utils/randon_password.generator.dart';
 
 class UserRepository {
   final DBConnection _connection;
@@ -11,6 +15,7 @@ class UserRepository {
 
   //create table if not exists
   Future<void> createTable() async {
+    print('Creating users table if not exists');
     final db = _connection.pool;
     await db.execute('''
       CREATE TABLE IF NOT EXISTS users (
@@ -35,21 +40,34 @@ class UserRepository {
   }
 
   //create user
-  Future<void> createUser(User user) async {
+  Future<void> createUser(User user, String creatorjwt) async {
     final db = _connection.pool;
+
+    final result = await db.execute(
+      "SELECT * FROM users WHERE jwt_token = :jwt_token",
+      {'jwt_token': creatorjwt},
+    );
+
+    final creatorId = result.rows.first.assoc()['username']!;
 
     final missingKeys = validateRequiredParams(
       model: user,
-      params: ['username', 'email', 'role', 'password'],
+      params: ['username', 'email', 'role'],
     );
 
     if (missingKeys.isNotEmpty) {
       throw Exception('Missing required fields: ${missingKeys.join(', ')}');
     }
 
-    final password = BCrypt.hashpw(user.password!, BCrypt.gensalt());
+    //randomly generate a password using Randowm() Santa@1245 this expression
 
-    await db.execute(
+    final autoPwd = generateRandomPassword(length: 6);
+
+    final password = BCrypt.hashpw(autoPwd, BCrypt.gensalt());
+
+    final jwt = generateToken(user.username!);
+
+    final q = await db.execute(
       '''
       INSERT INTO users (username, email, role, password, created_by, jwt_token) 
       VALUES (:username, :email, :role, :password, :created_by, :jwt_token)
@@ -59,9 +77,13 @@ class UserRepository {
         'email': user.email,
         'role': user.role,
         'password': password,
-        'created_by': user.createdBy,
-        'jwt_token': user.jwtToken,
+        'created_by': creatorId,
+        'jwt_token': jwt,
       },
     );
+
+    if (q.affectedRows.toString() == "1") {
+      sendMail(user, autoPwd);
+    }
   }
 }
