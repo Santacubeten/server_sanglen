@@ -12,48 +12,46 @@ Future<void> main() async {
   await db.connectdb();
 
   // Initialize Shelf Router
-  final app = Router();
+  final protected = Router();
+  final public = Router();
 
-  // Simple root GET route (optional HTML responder)
-  app.get("/", serveHTML);
-  
+  //Public routes
+  // This route does not require authentication
+  public.mount('/', PublicRoutes(db).router.call);
 
-  app.get("/swagger.yaml", (shelf.Request request) {
-    return shelf.Response.ok(File('public/swagger.yaml').readAsStringSync(),
-        headers: {'content-type': 'text/yaml'});
-  });
+  //Protected routes
+  protected.mount('/auth', AuthRoutes(db).router.call);
+  protected.mount('/users', UserRoute(db).router.call);
+  protected.mount('/clans', ClanRoutes(db).router.call);
+  protected.mount('/surnames', SurnameRoutes(db).router.call);
+  protected.mount('/yek_details', YekDetailsRoutes(db).route.call);
+  protected.mount('/yelhen', YelhenRoutes(db).route.call);
+  protected.mount(
+      '/apokpa_khoiramba_numit', ApokpaKhoirambaNumitroutes(db).router.call);
 
-  app.get("/custom.css", (shelf.Request request) {
-    return shelf.Response.ok(File('public/custom.css').readAsStringSync(),
-        headers: {'content-type': 'text/css'});
-  });
+  final handler = shelf.Cascade()
+      .add(
+        const shelf.Pipeline()
+            .addMiddleware(shelf.logRequests())
+            .addMiddleware(corsMiddleware)
+            .addHandler(public.call),
+      )
+      .add(
+        const shelf.Pipeline()
+            .addMiddleware(shelf.logRequests())
+            .addMiddleware(corsMiddleware)
+            .addMiddleware(jwtAuthMiddleware) // ✅ Only applied to non-open
+            .addHandler(protected.call),
+      )
+      .handler;
 
-  app.get("/meitei_mayek.ttf", (shelf.Request request) {
-    return shelf.Response.ok(File('public/meitei_mayek.ttf').readAsBytesSync(),
-        headers: {'content-type': 'font/ttf'});
-  });
+  // // Build middleware + handler pipeline
+  // final handler = const shelf.Pipeline()
 
-
-
-  // Mount the /todos routes
-  // app.mount('/todos', TodoRoutes(db).router.call);
-  app.mount('/auth', AuthRoutes(db).router.call);
-  app.mount('/users', UserRoute(db).router.call);
-  app.mount('/clans', ClanRoutes(db).router.call);
-  app.mount('/surnames', SurnameRoutes(db).router.call);
-  app.mount('/yek_details', YekDetailsRoutes(db).route.call);
-  app.mount('/yelhen', YelhenRoutes(db).route.call);
-  app.mount('/apokpa_khoiramba_numit', ApokpaKhoirambaNumitroutes(db).router.call);
-
-
-
-
-  // Build middleware + handler pipeline
-  final handler = const shelf.Pipeline()
-      .addMiddleware(shelf.logRequests())
-      .addMiddleware(corsMiddleware) // your custom CORS middleware
-      .addMiddleware(jwtAuthMiddleware) // add database middleware
-      .addHandler(app.call);
+  //     .addMiddleware(shelf.logRequests())
+  //     .addMiddleware(corsMiddleware) // your custom CORS middleware
+  //     .addMiddleware(jwtAuthMiddleware) // add database middleware
+  //     .addHandler(app.call);
 
   // Start server
   try {
@@ -75,9 +73,4 @@ Future<void> main() async {
     print('❌ Server failed to start: $e');
     print(stack);
   }
-}
-
-shelf.Response serveHTML(shelf.Request request) {
-  return shelf.Response.ok(File('public/index.html').readAsStringSync(),
-      headers: {'content-type': 'text/html'});
 }

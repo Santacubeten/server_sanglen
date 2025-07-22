@@ -1,14 +1,31 @@
-# Setup Dart server
-FROM dart:3.3.0 AS dart-server
+FROM dart:3.3.0 AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the pubspec.yaml file and get dependencies
+# Copy pubspec and fetch dependencies first
 COPY pubspec.* ./
-COPY . .
 RUN dart pub get
 
-# Run the app
-CMD ["dart", "bin/server.dart"]
+# Copy the rest of the application
+COPY . .
+
+# Compile the server to native executable
+RUN dart compile exe bin/server.dart -o bin/server
+
+# --- Final lightweight image ---
+FROM scratch
+
+# Set working directory
+WORKDIR /app
+
+# Copy compiled binary and required files from build stage
+COPY --from=build /runtime/ /
+COPY --from=build /app/bin/server /app/server
+
+# Expose port
+EXPOSE 3000
+
+# Run the compiled binary
+CMD ["/app/server"]
+
 

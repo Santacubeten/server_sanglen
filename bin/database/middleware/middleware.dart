@@ -1,5 +1,5 @@
 import 'package:shelf/shelf.dart' as shelf;
-import '../../handler/open_routes.dart';
+import '../../routes/open_routes.dart';
 import '../../handler/token_validator.dart';
 import '../../config/utils/response_helper.dart';
 
