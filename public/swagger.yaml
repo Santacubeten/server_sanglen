@@ -16,7 +16,7 @@ servers:
     description: Home
 tags:
   - name: Authentication
-    description: Authentication related endpoints   
+    description: Authentication related endpoints
   - name: Clan
     description: Yek
   - name: Surname
@@ -40,8 +40,8 @@ paths:
             schema:
               type: object
               properties:
-                username: { type: string }
-                password: { type: string }
+                username: { type: string, example: "admin" }
+                password: { type: string, example: "admin" }
       responses:
         "200":
           description: Login successful.
@@ -512,7 +512,8 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/apokpa_khoiramba_numit" }
-        "404": { description: Apokpa Khoiramba Numit not found for given Clan ID }
+        "404":
+          { description: Apokpa Khoiramba Numit not found for given Clan ID }
 
 components:
   securitySchemes:
@@ -520,6 +521,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: for demo use => imadmin
   schemas:
     yek_Details:
       type: object

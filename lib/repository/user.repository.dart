@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:bcrypt/bcrypt.dart';
 import '../handler/jwt.generator.dart';
