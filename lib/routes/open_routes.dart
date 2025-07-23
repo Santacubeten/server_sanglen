@@ -5,5 +5,4 @@ var openRoutes = [
   'test_mailer',
   'user',
 
-  // 'profile', //testing
 ];

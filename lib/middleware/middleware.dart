@@ -1,7 +1,7 @@
 import 'package:shelf/shelf.dart' as shelf;
-import '../../routes/open_routes.dart';
-import '../../handler/token_validator.dart';
-import '../../config/utils/response_helper.dart';
+import '../routes/open_routes.dart';
+import '../handler/token_validator.dart';
+import '../utils/response_helper.dart';
 
 Future<shelf.Response> Function(shelf.Request request) corsMiddleware(
     shelf.Handler innerHandler) {
@@ -61,7 +61,7 @@ shelf.Handler jwtAuthMiddleware(shelf.Handler innerHandler) {
 
     // Decode and verify the JWT token
     try {
-      var (isValid, map) = await isTokenValid(token);
+      var (isValid, map) = await checkToken(token);
       if (isValid) {
         // If verification succeeds, add the decoded token to the request context
         return innerHandler(request.change(context: map));

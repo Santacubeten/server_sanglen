@@ -1,7 +1,7 @@
 import 'package:shelf/shelf.dart';
 import '../models/modes.dart';
 import '../database/db_connection.dart';
-import '../config/utils/validation_helper.dart';
+import '../utils/validation_helper.dart';
 
 class YelhenRepository {
   final DBConnection _connection;

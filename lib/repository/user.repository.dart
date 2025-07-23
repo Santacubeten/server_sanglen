@@ -4,9 +4,9 @@ import 'package:bcrypt/bcrypt.dart';
 import '../handler/jwt.generator.dart';
 import '../database/db_connection.dart';
 import '../models/modes.dart';
-import '../config/utils/validation_helper.dart';
+import '../utils/validation_helper.dart';
 import '../handler/mailer.dart';
-import '../config/utils/randon_password.generator.dart';
+import '../utils/randon_password.generator.dart';
 
 class UserRepository {
   final DBConnection _connection;

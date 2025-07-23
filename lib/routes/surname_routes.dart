@@ -4,7 +4,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../models/surname.model.dart';
 import '../database/db_connection.dart';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 
 class SurnameRoutes {
   final DBConnection _connection;

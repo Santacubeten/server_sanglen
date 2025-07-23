@@ -1,5 +1,5 @@
 import '../database/db_connection.dart';
-Future<(bool, Map<String, dynamic>?)> isTokenValid(
+Future<(bool, Map<String, dynamic>?)> checkToken(
     String token, ) async {
   final DBConnection connection = DBConnection.instance;
   var result = await connection.pool.execute(

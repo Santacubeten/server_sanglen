@@ -1,7 +1,7 @@
 import '../database/db_connection.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 import 'dart:io';
 
 class PublicRoutes {

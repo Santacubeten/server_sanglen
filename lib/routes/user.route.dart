@@ -3,7 +3,7 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
 import '../models/user.model.dart';
 import 'dart:convert';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 
 class UserRoute {
   final DBConnection _connection;

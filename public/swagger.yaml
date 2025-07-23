@@ -3,8 +3,7 @@ info:
   title: Yek Salai API
   description: |
     A simple API for Meitei Yek Salai.
-    <br>
-    <br>
+    <br><br>
     <img src="https://code.visualstudio.com/assets/images/code-stable.png" width="20" height="20" alt="VS Code icon">
     [Open VS Code](https://github.dev/Santacubeten/server_sanglen) (opens in new tab)
   version: 1.0.0
@@ -16,300 +15,24 @@ servers:
   - url: http://192.168.29.191:3000
     description: Home
 tags:
+  - name: Authentication
+    description: Authentication related endpoints   
   - name: Clan
     description: Yek
   - name: Surname
     description: Sagei
   - name: Yek Details
     description: Yek Akumpa marol
+  - name: Yelhen
+    description: Yelhen endpoints
+  - name: Apokpa Khoiramba Numit
+    description: Apokpa Khoiramba Numit endpoints
+
 paths:
-  /clans:
-    get:
-      tags:
-        - Clan
-      summary: Get all clans
-      responses:
-        "200":
-          description: A list of clans.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Clan"
+  /auth/login:
     post:
-      tags:
-        - Clan
-      summary: Create a new clan
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ClanInput"
-      responses:
-        "200":
-          description: Clan created successfully.
-  /clans/{id}:
-    get:
-      tags:
-        - Clan
-      summary: Get a clan by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A single clan.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Clan"
-        "404":
-          description: Clan not found.
-    put:
-      tags:
-        - Clan
-      summary: Update a clan by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ClanInput"
-      responses:
-        "200":
-          description: Clan updated successfully.
-    delete:
-      tags:
-        - Clan
-      summary: Delete a clan by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Clan deleted successfully.
-
-  /surnames:
-    get:
-      tags:
-        - Surname
-      summary: Get all surnames
-      responses:
-        "200":
-          description: A list of surnames.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Surname"
-    post:
-      tags:
-        - Surname
-      summary: Create a new surname
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SurnameInput"
-      responses:
-        "200":
-          description: Surname created successfully.
-  /surnames/{id}:
-    get:
-      tags:
-        - Surname
-      summary: Get a surname by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A single surname.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Surname"
-        "404":
-          description: Surname not found.
-    put:
-      tags:
-        - Surname
-      summary: Update a surname by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SurnameInput"
-      responses:
-        "200":
-          description: Surname updated successfully.
-    delete:
-      tags:
-        - Surname
-      summary: Delete a surname by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Surname deleted successfully.
-  /surnames/clan/{clanId}:
-    get:
-      tags:
-        - Surname
-      summary: Get surnames by Clan ID
-      parameters:
-        - name: clanId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A list of surnames for the given clan ID.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Surname"
-  /yek_details:
-    get:
-      tags:
-        - Yek Details
-      summary: Get All Yek Details
-      responses:
-        "200":
-          description: A List of Yek Details.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/yek_Details"
-
-    post:
-      tags:
-        - Yek Details
-      summary: Create a new Yek Detail
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/yek_Details"
-      responses:
-        "200":
-          description: Yek Detail created successfully.
-
-  /yek_details/{id}:
-    patch:
-      tags:
-        - Yek Details
-      summary: Partially update a Yek Detail
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/yek_Details"
-      responses:
-        "200":
-          description: Yek Detail updated successfully
-    get:
-      tags:
-        - Yek Details
-      summary: Get a Yek Detail by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A single Yek Detail.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/yek_Details"
-        "404":
-          description: Yek Detail not found
-
-    delete:
-      tags:
-        - Yek Details
-      summary: Delete a Yek Detail by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Yek Detail deleted successfully
-
-  /yek_details/by_clan_id/{clanId}:
-    get:
-      tags:
-        - Yek Details
-      summary: Get Yek Detail by Clan ID
-      parameters:
-        - name: clanId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A Yek Detail for the given Clan ID
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/yek_Details"
-        "404":
-          description: Yek Detail not found for given Clan ID
-  /yek_details/yekthoknabra:
-    post:
-      tags:
-        - Yek Details
-      summary: Yek Detail with Yekthoknabra
+      tags: [Authentication]
+      summary: User login
       requestBody:
         required: true
         content:
@@ -317,22 +40,327 @@ paths:
             schema:
               type: object
               properties:
-                ahanba_yumak_id:
-                  type: integer
-                akomba_yumak_id:
-                  type: integer
+                username: { type: string }
+                password: { type: string }
+      responses:
+        "200":
+          description: Login successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+        "401":
+          description: Unauthorized. Invalid credentials.
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: User registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                email: { type: string }
+                role: { type: integer }
+      responses:
+        "200":
+          description: Registration successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+        "400": { description: Bad request. Invalid input. }
+        "409": { description: Conflict. Username or email already exists. }
+  /clans:
+    get:
+      tags: [Clan]
+      summary: Get all clans
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of clans.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Clan" }
+    post:
+      tags: [Clan]
+      summary: Create a new clan
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ClanInput" }
+      responses:
+        "200": { description: Clan created successfully. }
+  /clans/{id}:
+    get:
+      tags: [Clan]
+      summary: Get a clan by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: A single clan.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Clan" }
+        "404": { description: Clan not found. }
+    put:
+      tags: [Clan]
+      summary: Update a clan by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ClanInput" }
+      responses:
+        "200": { description: Clan updated successfully. }
+    delete:
+      tags: [Clan]
+      summary: Delete a clan by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Clan deleted successfully. }
+  /surnames:
+    get:
+      tags: [Surname]
+      summary: Get all surnames
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of surnames.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Surname" }
+    post:
+      tags: [Surname]
+      summary: Create a new surname
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SurnameInput" }
+      responses:
+        "200": { description: Surname created successfully. }
+  /surnames/{id}:
+    get:
+      tags: [Surname]
+      summary: Get a surname by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: A single surname.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Surname" }
+        "404": { description: Surname not found. }
+    put:
+      tags: [Surname]
+      summary: Update a surname by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SurnameInput" }
+      responses:
+        "200": { description: Surname updated successfully. }
+    delete:
+      tags: [Surname]
+      summary: Delete a surname by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Surname deleted successfully. }
+  /surnames/clan/{clanId}:
+    get:
+      tags: [Surname]
+      summary: Get surnames by Clan ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: A list of surnames for the given clan ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Surname" }
+  /yek_details:
+    get:
+      tags: [Yek Details]
+      summary: Get All Yek Details
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A List of Yek Details.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/yek_Details" }
+    post:
+      tags: [Yek Details]
+      summary: Create a new Yek Detail
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/yek_Details" }
+      responses:
+        "200": { description: Yek Detail created successfully. }
+  /yek_details/{id}:
+    patch:
+      tags: [Yek Details]
+      summary: Partially update a Yek Detail
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/yek_Details" }
+      responses:
+        "200": { description: Yek Detail updated successfully }
+    get:
+      tags: [Yek Details]
+      summary: Get a Yek Detail by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: A single Yek Detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/yek_Details" }
+        "404": { description: Yek Detail not found }
+    delete:
+      tags: [Yek Details]
+      summary: Delete a Yek Detail by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Yek Detail deleted successfully }
+  /yek_details/by_clan_id/{clanId}:
+    get:
+      tags: [Yek Details]
+      summary: Get Yek Detail by Clan ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: A Yek Detail for the given Clan ID
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/yek_Details" }
+        "404": { description: Yek Detail not found for given Clan ID }
+  /yek_details/yekthoknabra:
+    post:
+      tags: [Yek Details]
+      summary: Yek Detail with Yekthoknabra
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ahanba_yumak_id: { type: integer }
+                akomba_yumak_id: { type: integer }
       responses:
         "200":
           description: Yek Detail created successfully with Yekthoknabra.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/yek_Details"
+              schema: { $ref: "#/components/schemas/yek_Details" }
   /yelhen:
     get:
-      tags:
-        - Yelhen
+      tags: [Yelhen]
       summary: Get all Yelhen
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: A list of Yelhen.
@@ -340,65 +368,60 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/yek_Details"
+                items: { $ref: "#/components/schemas/yelhen" }
     post:
-      tags:
-        - Yelhen
+      tags: [Yelhen]
       summary: Create a new Yelhen
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/yelhen"
+            schema: { $ref: "#/components/schemas/yelhen" }
       responses:
-        "200":
-          description: Yelhen created successfully.
+        "200": { description: Yelhen created successfully. }
     delete:
-      tags:
-        - Yelhen
+      tags: [Yelhen]
       summary: Delete a Yelhen by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
-        "200":
-          description: Yelhen deleted successfully.
+        "200": { description: Yelhen deleted successfully. }
   /yelhen/{id}:
     get:
-      tags:
-        - Yelhen
+      tags: [Yelhen]
       summary: Get a Yelhen by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: A single Yelhen.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/yelhen"
-        "404":
-          description: Yelhen not found.
+              schema: { $ref: "#/components/schemas/yelhen" }
+        "404": { description: Yelhen not found. }
   /yelhen/by_clan_id/{clanId}:
     get:
-      tags:
-        - Yelhen
+      tags: [Yelhen]
       summary: Get Yelhen by Clan ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: clanId
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: A list of Yelhen for the given Clan ID.
@@ -406,15 +429,14 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/yelhen"
-        "404":
-          description: Yelhen not found for given Clan ID
+                items: { $ref: "#/components/schemas/yelhen" }
+        "404": { description: Yelhen not found for given Clan ID }
   /apokpa_khoiramba_numit:
     get:
-      tags:
-        - Apokpa Khoiramba Numit
+      tags: [Apokpa Khoiramba Numit]
       summary: Get Apokpa Khoiramba Numit
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: A list of Apokpa Khoiramba Numit.
@@ -426,9 +448,10 @@ paths:
                   type: string
                   example: "1st January, 2023"
     post:
-      tags:
-        - Apokpa Khoiramba Numit
+      tags: [Apokpa Khoiramba Numit]
       summary: Create a new Apokpa Khoiramba Numit
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -436,57 +459,51 @@ paths:
             schema:
               type: object
               properties:
-                numit:
-                  type: string
-                clan_id:
-                  type: integer
+                numit: { type: string }
+                clan_id: { type: integer }
       responses:
-        "200":
-          description: Apokpa Khoiramba Numit created successfully.
+        "200": { description: Apokpa Khoiramba Numit created successfully. }
     delete:
-      tags:
-        - Apokpa Khoiramba Numit
+      tags: [Apokpa Khoiramba Numit]
       summary: Delete Apokpa Khoiramba Numit by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
-        "200":
-          description: Apokpa Khoiramba Numit deleted successfully.
+        "200": { description: Apokpa Khoiramba Numit deleted successfully. }
   /apokpa_khoiramba_numit/{id}:
     get:
-      tags:
-        - Apokpa Khoiramba Numit
+      tags: [Apokpa Khoiramba Numit]
       summary: Get Apokpa Khoiramba Numit by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: A single Apokpa Khoiramba Numit.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/apokpa_khoiramba_numit"
-        "404":
-          description: Apokpa Khoiramba Numit not found.
+              schema: { $ref: "#/components/schemas/apokpa_khoiramba_numit" }
+        "404": { description: Apokpa Khoiramba Numit not found. }
   /apokpa_khoiramba_numit/by_clan_id/{clanId}:
     get:
-      tags:
-        - Apokpa Khoiramba Numit
+      tags: [Apokpa Khoiramba Numit]
       summary: Get Apokpa Khoiramba Numit by Clan ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: clanId
           in: path
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: A list of Apokpa Khoiramba Numit for the given Clan ID.
@@ -494,115 +511,69 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/apokpa_khoiramba_numit"
-        "404":
-          description: Apokpa Khoiramba Numit not found for given Clan ID
+                items: { $ref: "#/components/schemas/apokpa_khoiramba_numit" }
+        "404": { description: Apokpa Khoiramba Numit not found for given Clan ID }
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     yek_Details:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        clan_id:
-          type: integer
-        firewood:
-          type: string
-        color:
-          type: string
-          example: "#ffcc00"
-        flower:
-          type: string
-        fruit:
-          type: string
-        fish:
-          type: string
-        sword:
-          type: string
-        created_at:
-          type: string
-          format: date-time,
-          readOnly: true
+        id: { type: integer, readOnly: true }
+        clan_id: { type: integer }
+        firewood: { type: string }
+        color: { type: string, example: "#ffcc00" }
+        flower: { type: string }
+        fruit: { type: string }
+        fish: { type: string }
+        sword: { type: string }
+        created_at: { type: string, format: date-time, readOnly: true }
     Clan:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
+        id: { type: integer, readOnly: true }
+        name: { type: string }
+        created_at: { type: string, format: date-time, readOnly: true }
+        created_by: { type: string }
         surnames:
           type: array
-          items:
-            $ref: "#/components/schemas/Surname"
+          items: { $ref: "#/components/schemas/Surname" }
     ClanInput:
       type: object
       properties:
-        name:
-          type: string
-        created_by:
-          type: string
-      required:
-        - name
+        name: { type: string }
+        created_by: { type: string }
+      required: [name]
     Surname:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        clan_id:
-          type: integer
-      required:
-        - name
-        - clan_id
+        id: { type: integer, readOnly: true }
+        name: { type: string }
+        clan_id: { type: integer }
+      required: [name, clan_id]
     SurnameInput:
       type: object
       properties:
-        name:
-          type: string
-        clan_id:
-          type: integer
-      required:
-        - name
-        - clan_id
+        name: { type: string }
+        clan_id: { type: integer }
+      required: [name, clan_id]
     yelhen:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        description:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
+        id: { type: integer, readOnly: true }
+        name: { type: string }
+        description: { type: integer }
+        created_at: { type: string, format: date-time, readOnly: true }
     apokpa_khoiramba_numit:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        numit:
-          type: string
-        clan_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-        - numit
-        - clan_id
+        id: { type: integer, readOnly: true }
+        numit: { type: string }
+        clan_id: { type: integer }
+        created_at: { type: string, format: date-time, readOnly: true }
+      required: [numit, clan_id]

@@ -4,7 +4,7 @@ import 'package:shelf_router/shelf_router.dart';
 import '../database/db_connection.dart';
 import '../repository/yelhen_repository.dart';
 import '../models/yelhen.model.dart';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 
 class YelhenRoutes {
   final DBConnection _connection;

@@ -1,13 +1,13 @@
 import '../database/db_connection.dart';
-import '../database/surname_table.dart';
+import 'surname_repository.dart';
 import '../models/clan.model.dart';
 import '../models/surname.model.dart';
 
 class ClanRepository {
   final DBConnection _connection;
-  final SurnameTable _surnameTable;
+  final SurnameRepository _surnameTable;
 
-  ClanRepository(this._connection) : _surnameTable = SurnameTable(_connection);
+  ClanRepository(this._connection) : _surnameTable = SurnameRepository(_connection);
 
   Future<void> createTable() async {
     print('Creating clans table if not exists');

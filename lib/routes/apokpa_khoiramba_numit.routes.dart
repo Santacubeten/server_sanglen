@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import '../database/db_connection.dart';
 import 'package:shelf_router/shelf_router.dart';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 import '../models/apokpa_khoiramba_numit.model.dart';
 import '../repository/apokpa_khoiramba_numit.repository.dart';
 

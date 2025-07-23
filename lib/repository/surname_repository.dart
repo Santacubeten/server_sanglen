@@ -1,10 +1,10 @@
 import '../models/surname.model.dart';
-import 'db_connection.dart';
+import '../database/db_connection.dart';
 
-class SurnameTable {
+class SurnameRepository {
   final DBConnection _connection;
 
-  SurnameTable(this._connection);
+  SurnameRepository(this._connection);
 
   Future<void> createTable() async {
     print('Creating surnames table if not exists');

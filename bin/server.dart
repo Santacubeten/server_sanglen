@@ -1,10 +1,18 @@
 import 'dart:io';
+import 'package:server/database/db_connection.dart';
+import 'package:server/middleware/middleware.dart';
+import 'package:server/routes/apokpa_khoiramba_numit.routes.dart';
+import 'package:server/routes/auth.routes.dart';
+import 'package:server/routes/clan_routes.dart';
+import 'package:server/routes/public.routes.dart';
+import 'package:server/routes/surname_routes.dart';
+import 'package:server/routes/user.route.dart';
+import 'package:server/routes/yek_details_routes.dart';
+import 'package:server/routes/yelhen_routes.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
-import 'database/db_connection.dart';
-import 'routes/routes.dart';
-import 'database/middleware/middleware.dart';
+
 
 Future<void> main() async {
   // Initialize MySQL database connection

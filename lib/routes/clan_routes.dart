@@ -4,7 +4,7 @@ import 'package:shelf_router/shelf_router.dart';
 import '../models/clan.model.dart';
 import '../database/db_connection.dart';
 import '../repository/clan_repository.dart';
-import '../config/utils/response_helper.dart';
+import '../utils/response_helper.dart';
 
 class ClanRoutes {
   final DBConnection _connection;
