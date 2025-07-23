@@ -1,5 +1,6 @@
 import 'package:bcrypt/bcrypt.dart';
 import 'package:mysql_client/mysql_client.dart';
+import 'package:server/repository/upload_repository.dart';
 import '../repository/clan_repository.dart';
 import '../repository/yek_details_repository.dart';
 import '../repository/yelhen_repository.dart';
@@ -15,12 +16,13 @@ class DBConnection {
   static DBConnection get instance => _instance;
 
   late final MySQLConnectionPool pool;
-  late final UserRepository userTable;
-  late final SurnameRepository surnameTable;
-  late final ClanRepository clanTable;
+  late final UserRepository userRepository;
+  late final SurnameRepository surnameRepository;
+  late final ClanRepository clanRepository;
   late final YekDetailRepository yekDetailRepository;
   late final YelhenRepository yelhenRepository;
   late final ApokpaKhoirambaNumitRepository apokpaKhoirambaNumitRepository;
+  late final UploadRepositoy uploadRepositoy;
 
   /* ---------- Helpers ---------- */
   Future<int> _rowCount(String tableName) async {
@@ -55,19 +57,21 @@ class DBConnection {
         databaseName: 'sanglen',
         maxConnections: 10,
       );
-      userTable = UserRepository(this);
-      clanTable = ClanRepository(this);
-      surnameTable = SurnameRepository(this);
+      userRepository = UserRepository(this);
+      clanRepository = ClanRepository(this);
+      surnameRepository = SurnameRepository(this);
       yekDetailRepository = YekDetailRepository(this);
       yelhenRepository = YelhenRepository(this);
       apokpaKhoirambaNumitRepository = ApokpaKhoirambaNumitRepository(this);
+      uploadRepositoy = UploadRepositoy(this);
 
-      await userTable.createTable();
-      await clanTable.createTable();
-      await surnameTable.createTable();
+      await userRepository.createTable();
+      await clanRepository.createTable();
+      await surnameRepository.createTable();
       await yekDetailRepository.createTable();
       await yelhenRepository.createTable();
       await apokpaKhoirambaNumitRepository.createTable();
+      await uploadRepositoy.createTable();
 
       await seedData();
 

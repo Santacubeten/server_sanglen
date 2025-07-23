@@ -515,6 +515,39 @@ paths:
         "404":
           { description: Apokpa Khoiramba Numit not found for given Clan ID }
 
+  /upload:
+    post:
+      tags: [Upload]
+      summary: Upload a file
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload
+      responses:
+        "200":
+          description: File uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: "http://example.com/uploads/filename.jpg"
+        "400":
+          description: Bad request. Invalid file.
+        "401":
+          description: Unauthorized.
+
 components:
   securitySchemes:
     bearerAuth:

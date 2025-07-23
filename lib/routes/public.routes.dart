@@ -41,6 +41,37 @@ class PublicRoutes {
       );
     });
 
+    // Example: POST /upload
+    // Serve files from the 'public/upload' folder
+    router.get('/upload/<file|.*>', (Request request, String file) {
+      final filePath = 'public/upload/$file';
+      final fileToServe = File(filePath);
+      if (!fileToServe.existsSync()) {
+      return Response.notFound('File not found');
+      }
+      // Infer content type based on file extension
+      final ext = file.split('.').last;
+      final contentTypes = {
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'pdf': 'application/pdf',
+      'txt': 'text/plain',
+      'mp3': 'audio/mpeg',
+      'mp4': 'video/mp4',
+      'json': 'application/json',
+      'csv': 'text/csv',
+      };
+      final contentType = contentTypes[ext] ?? 'application/octet-stream';
+      return Response.ok(
+      fileToServe.readAsBytesSync(),
+      headers: {'content-type': contentType},
+      );
+    });
+
+
+
     return router;
   }
 }

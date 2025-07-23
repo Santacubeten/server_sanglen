@@ -14,7 +14,7 @@ class UserRoute {
 
     // Define user-related routes here
     router.get('/', (Request request) async {
-      final users = await _connection.userTable.getAllUsers();
+      final users = await _connection.userRepository.getAllUsers();
       return AppResponse.success(
         data: users.map((user) {
           final m = user.toJson();
@@ -34,7 +34,7 @@ class UserRoute {
 
       final body = await request.readAsString();
       final user = User.fromJson(jsonDecode(body));
-      await _connection.userTable.createUser(user, token);
+      await _connection.userRepository.createUser(user, token);
       return AppResponse.success(message: 'User created successfully', data: {
         'username': user.username,
         'email': user.email,

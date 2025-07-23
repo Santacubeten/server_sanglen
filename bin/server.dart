@@ -6,6 +6,7 @@ import 'package:server/routes/auth.routes.dart';
 import 'package:server/routes/clan_routes.dart';
 import 'package:server/routes/public.routes.dart';
 import 'package:server/routes/surname_routes.dart';
+import 'package:server/routes/upload_routes.dart';
 import 'package:server/routes/user.route.dart';
 import 'package:server/routes/yek_details_routes.dart';
 import 'package:server/routes/yelhen_routes.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
   //Public routes
   // This route does not require authentication
   public.mount('/', PublicRoutes(db).router.call);
+  public.mount('/upload', UploadRoute(db).router.call);
 
   //Protected routes
   protected.mount('/auth', AuthRoutes(db).router.call);
